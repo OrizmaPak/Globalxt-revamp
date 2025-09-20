@@ -1,0 +1,136 @@
+import { useState } from 'react';
+import type { FormEvent } from 'react';
+import { contactChannels, companyInfo } from '../data/siteContent';
+
+const ContactPage = () => {
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmitted(true);
+  };
+
+  return (
+    <div className="bg-white">
+      <section className="bg-slate-50 py-16">
+        <div className="container-gxt">
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+            Contact
+          </span>
+          <h1 className="mt-4 text-3xl font-semibold text-brand-deep">Let's build your export program</h1>
+          <p className="mt-4 max-w-3xl text-sm text-slate-600">
+            Reach out via phone, WhatsApp, or the contact form. A member of our commercial team will
+            respond within one business day.
+          </p>
+        </div>
+      </section>
+
+      <section className="container-gxt grid gap-8 py-16 lg:grid-cols-[1.1fr,0.9fr] lg:items-start">
+        <form onSubmit={handleSubmit} className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-semibold text-brand-deep">Send us a message</h2>
+          <p className="mt-2 text-xs text-slate-500">
+            CAPTCHA integration placeholder — production build will connect to reCAPTCHA/Turnstile.
+          </p>
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="name" className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                Full Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                className="rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-primary focus:outline-none"
+                required
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="email" className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                Email Address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                className="rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-primary focus:outline-none"
+                required
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="phone" className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                Phone / WhatsApp
+              </label>
+              <input
+                id="phone"
+                name="phone"
+                className="rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-primary focus:outline-none"
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="company" className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+                Company
+              </label>
+              <input
+                id="company"
+                name="company"
+                className="rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-primary focus:outline-none"
+              />
+            </div>
+          </div>
+          <div className="mt-4 flex flex-col gap-2">
+            <label htmlFor="message" className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+              Message
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              rows={4}
+              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-primary focus:outline-none"
+              placeholder="Share product requirements, volumes, and destination market."
+            />
+          </div>
+          <button
+            type="submit"
+            className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-brand-primary px-6 py-3 text-sm font-semibold text-white hover:bg-brand-lime"
+          >
+            Submit enquiry
+          </button>
+          {submitted && (
+            <p className="mt-4 rounded-2xl bg-brand-lime/10 px-4 py-3 text-sm text-brand-primary">
+              Thank you. Our team will reach out shortly. This is a placeholder acknowledgement until the
+              live backend endpoint is connected.
+            </p>
+          )}
+        </form>
+        <aside className="space-y-6">
+          <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
+            <h2 className="text-lg font-semibold text-brand-deep">Direct contact</h2>
+            <ul className="mt-4 space-y-2 text-sm text-slate-600">
+              {contactChannels.map((channel) => (
+                <li key={channel.label}>
+                  <a href={channel.href} className="font-semibold text-brand-primary hover:text-brand-lime">
+                    {channel.label}: {channel.value}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-xs text-slate-500">
+              WhatsApp widget integration placeholder. Embed script will go here during production setup.
+            </p>
+          </div>
+          <div className="overflow-hidden rounded-3xl border border-slate-100 bg-white p-4 shadow-sm">
+            <iframe
+              title="Global XT Limited map"
+              src={`https://www.google.com/maps?q=${encodeURIComponent(companyInfo.address)}&output=embed`}
+              className="h-64 w-full rounded-2xl"
+              loading="lazy"
+            />
+          </div>
+        </aside>
+      </section>
+    </div>
+  );
+};
+
+export default ContactPage;
+
+
