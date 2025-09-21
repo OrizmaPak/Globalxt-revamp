@@ -23,72 +23,99 @@ const iconRegistry = {
   GlobeAltIcon,
   SparklesIcon,
 };
+const highlightMetrics = [
+  { value: '45+', label: 'Agro SKUs', description: 'Seasonally curated commodities from spices, grains, nuts, oils, and botanicals.' },
+  { value: '18', label: 'Export Destinations', description: 'Active shipments supported across Europe, Asia, and the Middle East.' },
+  { value: '72h', label: 'Quote Turnaround', description: 'Average response time for compliant pricing and documentation packs.' },
+];
+
 
 const HomePage = () => {
   return (
     <div className="bg-white">
       <HeroCarousel />
 
-      <section className="container-gxt py-16">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr,0.8fr] lg:items-center">
-          <div>
-            <h2 className="text-3xl font-semibold text-brand-deep">
-              Agricultural trading intelligence for ambitious brands and brokers
-            </h2>
-            <p className="mt-4 text-base text-slate-600">
-              Global XT Limited is an export, trading, and consulting partner delivering spices,
-              grains, nuts, oils, and botanicals from Africa to the world. We simplify sourcing with
-              rigorous quality assurance, transparent documentation, and responsive logistics support.
-            </p>
-            <ul className="mt-8 space-y-3 text-sm text-slate-700">
-              {[
-                'Exports to food and beverage manufacturers across Europe, Asia, and the Middle East.',
-                'Local aggregation and processing hubs in Nigeria with traceable farmer networks.',
-                'Consulting and training programs that upskill teams entering the agro export market.',
-              ].map((line) => (
-                <li key={line} className="flex items-start gap-3">
-                  <CheckCircleIcon className="mt-1 h-5 w-5 flex-shrink-0 text-brand-primary" />
-                  <span>{line}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-6 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-brand-lime"
-              >
-                Request a discovery call
-                <ArrowRightIcon className="h-4 w-4" />
-              </Link>
-              <a
-                href={`https://wa.me/${companyInfo.whatsapp.replace('+', '')}`}
-                className="inline-flex items-center gap-2 rounded-full border border-brand-primary px-6 py-3 text-sm font-semibold text-brand-primary transition hover:bg-brand-lime/10"
-              >
-                Chat on WhatsApp
-              </a>
-            </div>
-          </div>
-          <div className="rounded-3xl border border-brand-lime/30 bg-brand-lime/5 p-6 shadow-inner">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
-              Core Categories
-            </span>
-            <ul className="mt-4 space-y-3 text-sm text-slate-700">
-              {productCategories.map((category) => (
-                <li key={category.slug} className="flex items-center justify-between">
-                  <div>
-                    <p className="font-semibold text-brand-deep">{category.name}</p>
-                    <p className="text-xs text-slate-500">{category.tagline}</p>
+      <section className="relative -mt-12 pb-20 sm:-mt-16">
+        <div className="px-0 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <div className="relative overflow-hidden rounded-none border border-brand-primary/20 bg-white/95 px-6 py-12 shadow-[0_45px_140px_-70px_rgba(12,54,24,0.5)] backdrop-blur sm:rounded-[2.75rem] sm:px-12">
+              <div className="pointer-events-none absolute -left-32 top-[-140px] h-64 w-64 rounded-full bg-brand-chartreuse/18 blur-3xl" />
+              <div className="pointer-events-none absolute bottom-[-160px] right-[-120px] h-72 w-72 rounded-full bg-brand-primary/12 blur-3xl" />
+              <div className="relative grid gap-10 lg:grid-cols-[1.4fr,0.6fr]">
+                <div className="space-y-7">
+                  <span className="text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-brand-primary">
+                    Export Excellence
+                  </span>
+                  <h2 className="text-3xl font-semibold text-brand-deep sm:text-4xl">
+                    Precision sourcing, intelligence-led trading, and compliant logistics for ambitious agro brands.
+                  </h2>
+                  <p className="max-w-2xl text-sm leading-6 text-slate-600">
+                    We orchestrate farmer aggregation, processing oversight, inspection, and global fulfilment so that partners can focus on market growth. Each programme is built on transparent data, predictable lead times, and audit-ready documentation.
+                  </p>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {[
+                      'Field-to-port visibility with digitally signed quality checkpoints.',
+                      'Dedicated compliance desk managing export permits, SGS, and phytosanitary certificates.',
+                      'Structured finance and hedging advisory for high-volume transactions.',
+                      'Arrival support with buyer onboarding playbooks in 18 destinations.',
+                    ].map((line) => (
+                      <div key={line} className="flex items-start gap-3 rounded-2xl border border-brand-primary/30 bg-white/70 p-4 text-sm text-slate-600 shadow-sm transition hover:border-brand-primary hover:bg-brand-lime/10">
+                        <CheckCircleIcon className="mt-1 h-5 w-5 flex-shrink-0 text-brand-primary" />
+                        <span>{line}</span>
+                      </div>
+                    ))}
                   </div>
-                  <Link
-                    to={`/products/${category.slug}`}
-                    className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-brand-primary hover:text-brand-lime"
+                  <div className="flex flex-wrap gap-4 pt-2">
+                    <Link
+                      to="/contact"
+                      className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-6 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-brand-lime"
+                    >
+                      Request a discovery call
+                      <ArrowRightIcon className="h-4 w-4" />
+                    </Link>
+                    <a
+                      href={`https://wa.me/${companyInfo.whatsapp.replace('+', '')}`}
+                      className="inline-flex items-center gap-2 rounded-full border border-brand-primary px-6 py-3 text-sm font-semibold text-brand-primary transition hover:bg-brand-lime/10"
+                    >
+                      Chat on WhatsApp
+                    </a>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-5 rounded-[2rem] border border-brand-primary/25 bg-white/80 p-6 shadow-inner">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[0.6rem] font-semibold uppercase tracking-[0.42em] text-brand-primary">Core categories</span>
+                    <div className="text-[0.6rem] uppercase tracking-[0.34em] text-brand-primary/60">API ready</div>
+                  </div>
+                  <div className="max-h-72 space-y-3 overflow-y-auto pr-1">
+                    {productCategories.map((category) => (
+                      <Link
+                        key={category.slug}
+                        to={`/products/${category.slug}`}
+                        className="group flex items-center justify-between rounded-2xl border border-transparent bg-white px-4 py-3 text-sm text-brand-deep transition hover:border-brand-primary/40 hover:bg-brand-lime/10"
+                      >
+                        <div>
+                          <p className="font-semibold text-brand-deep group-hover:text-brand-primary">{category.name}</p>
+                          <p className="text-xs text-slate-500 group-hover:text-brand-primary/70">{category.tagline}</p>
+                        </div>
+                        <ArrowRightIcon className="h-4 w-4 text-brand-primary transition group-hover:translate-x-1" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="relative mt-10 grid gap-4 sm:grid-cols-3">
+                {highlightMetrics.map((metric) => (
+                  <div
+                    key={metric.label}
+                    className="rounded-3xl border border-brand-primary/20 bg-white/80 p-4 text-center shadow-sm transition hover:-translate-y-1 hover:border-brand-primary hover:shadow-lg"
                   >
-                    View
-                    <ArrowRightIcon className="h-3 w-3" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
+                    <p className="text-3xl font-semibold text-brand-deep">{metric.value}</p>
+                    <p className="mt-1 text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-slate-500">{metric.label}</p>
+                    <p className="mt-2 text-xs text-slate-500">{metric.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
