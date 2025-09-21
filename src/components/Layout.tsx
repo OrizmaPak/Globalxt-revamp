@@ -8,14 +8,21 @@ const Layout = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
+    // Scroll to top when route changes
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Also ensure the document body scrolls to top
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, [pathname]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-white">
-      <HeaderTopBar />
+    <div className="flex min-h-screen flex-col bg-white relative">
+      <div className="hidden lg:block">
+        <HeaderTopBar />
+      </div>
       <Navbar />
-      <main className="flex-1">
+      <main className="flex-1 relative z-10">
         <Outlet />
       </main>
       <Footer />

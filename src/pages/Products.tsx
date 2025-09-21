@@ -1,12 +1,21 @@
 import { Link } from 'react-router-dom';
 import ImageWithFallback from '../components/ImageWithFallback';
 import { productCategories } from '../data/siteContent';
+import image from '../assets/image3.jpg';
+import Breadcrumb from '../components/Breadcrumb';
 
 const ProductsPage = () => {
   return (
     <div className="bg-white">
-      <section className="bg-slate-50 py-16">
-        <div className="container-gxt">
+      <section className="relative overflow-hidden py-16">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${image})`,
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/90 via-brand-chartreuse/80 to-transparent" />
+        <div className="container-gxt relative z-10">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
             Our Products
           </span>
@@ -17,6 +26,7 @@ const ProductsPage = () => {
           </p>
         </div>
       </section>
+      <Breadcrumb />
 
       <section className="container-gxt py-16">
         <div className="grid gap-8">

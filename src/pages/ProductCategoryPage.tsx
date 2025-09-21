@@ -1,6 +1,8 @@
 import { Link, useParams } from 'react-router-dom';
 import ImageWithFallback from '../components/ImageWithFallback';
 import { productCategories } from '../data/siteContent';
+import image from '../assets/image3.jpg';
+import Breadcrumb from '../components/Breadcrumb';
 
 const ProductCategoryPage = () => {
   const { categorySlug } = useParams();
@@ -25,22 +27,23 @@ const ProductCategoryPage = () => {
 
   return (
     <div className="bg-white">
-      <section className="relative overflow-hidden">
-        <div className="relative h-72 w-full">
-          <ImageWithFallback src={category.heroImage} alt={category.name} />
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-deep via-brand-deep/70 to-brand-deep/40" />
-        </div>
-        <div className="absolute inset-0 bg-brand-deep/60" />
-        <div className="relative py-14 text-white">
-          <div className="container-gxt">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-yellow">
-              {category.name}
-            </span>
-            <h1 className="mt-4 text-3xl font-semibold">{category.tagline}</h1>
-            <p className="mt-4 max-w-3xl text-sm text-white/80">{category.summary}</p>
-          </div>
+      <section className="relative overflow-hidden py-16">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${image})`,
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/90 via-brand-chartreuse/80 to-transparent" />
+        <div className="container-gxt relative z-10">
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+            {category.name}
+          </span>
+          <h1 className="mt-4 text-3xl font-semibold text-brand-deep">{category.tagline}</h1>
+          <p className="mt-4 max-w-3xl text-sm text-slate-600">{category.summary}</p>
         </div>
       </section>
+      <Breadcrumb />
 
       <section className="container-gxt py-12">
         <div className="grid gap-6 md:grid-cols-3">

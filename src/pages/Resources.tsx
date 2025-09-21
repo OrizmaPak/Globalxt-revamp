@@ -1,6 +1,7 @@
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { resourceArticles } from '../data/siteContent';
+import image from '../assets/image3.jpg';
 
 const faqs = [
   {
@@ -23,8 +24,15 @@ const faqs = [
 const ResourcesPage = () => {
   return (
     <div className="bg-white">
-      <section className="bg-slate-50 py-16">
-        <div className="container-gxt">
+      <section className="relative overflow-hidden py-16">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${image})`,
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/90 via-brand-chartreuse/80 to-transparent" />
+        <div className="container-gxt relative z-10">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
             Knowledge Hub
           </span>

@@ -38,7 +38,7 @@ const HeaderTopBar = () => {
       <div className="container-gxt flex flex-col gap-4 py-1 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-4">
           <div className="h-20 w-20">
-            <ImageWithFallback src={logo} alt="Global XT Limited" className="object-contain p-3 border" />
+            <ImageWithFallback src={logo} alt="Global XT Limited" className="object-contain p-3 " />
           </div>
           {/* <p className="text-xs font-semibold uppercase tracking-[0.35em] text-brand-primary">
             Africa's Agro Export Powerhouse

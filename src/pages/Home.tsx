@@ -2,6 +2,7 @@ import { ArrowRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import HeroCarousel from '../components/HeroCarousel';
 import ImageWithFallback from '../components/ImageWithFallback';
+import Breadcrumb from '../components/Breadcrumb';
 import {
   companyInfo,
   industrySegments,
@@ -35,7 +36,7 @@ const HomePage = () => {
     <div className="bg-white">
       <HeroCarousel />
 
-      <section className="relative -mt-12 pb-20 sm:-mt-16">
+      <section className="relative -mt-4 py-20 sm:-mt-6">
         <div className="px-0 sm:px-6">
           <div className="mx-auto max-w-6xl">
             <div className="relative overflow-hidden rounded-none border border-brand-primary/20 bg-white/95 px-6 py-12 shadow-[0_45px_140px_-70px_rgba(12,54,24,0.5)] backdrop-blur sm:rounded-[2.75rem] sm:px-12">
@@ -86,18 +87,22 @@ const HomePage = () => {
                     <span className="text-[0.6rem] font-semibold uppercase tracking-[0.42em] text-brand-primary">Core categories</span>
                     <div className="text-[0.6rem] uppercase tracking-[0.34em] text-brand-primary/60">API ready</div>
                   </div>
-                  <div className="max-h-72 space-y-3 overflow-y-auto pr-1">
+                  <div className="max-h-fit space-y-3 overflow-y-auto pr-1">
                     {productCategories.map((category) => (
                       <Link
                         key={category.slug}
                         to={`/products/${category.slug}`}
-                        className="group flex items-center justify-between rounded-2xl border border-transparent bg-white px-4 py-3 text-sm text-brand-deep transition hover:border-brand-primary/40 hover:bg-brand-lime/10"
+                        className="group flex flex-col items-center justify-between rounded-2xl border border-transparent bg-white px-4 py-3 text-sm text-brand-deep transition hover:border-brand-primary/40 hover:bg-brand-lime/10"
                       >
-                        <div>
-                          <p className="font-semibold text-brand-deep group-hover:text-brand-primary">{category.name}</p>
-                          <p className="text-xs text-slate-500 group-hover:text-brand-primary/70">{category.tagline}</p>
+                        <div className="w-full flex justify-center">
+                          <div className="w-full max-w-xs h-32 overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 flex items-center justify-center">
+                            <ImageWithFallback src={category.heroImage} alt={category.name} className="w-full h-full object-contain" />
+                          </div>
                         </div>
-                        <ArrowRightIcon className="h-4 w-4 text-brand-primary transition group-hover:translate-x-1" />
+                        <div className="mt-3 w-full text-left">
+                          <p className="font-semibold text-brand-deep group-hover:text-brand-primary truncate">{category.name}</p>
+                          <p className="text-xs text-slate-500 group-hover:text-brand-primary/70 truncate">{category.tagline}</p>
+                        </div>
                       </Link>
                     ))}
                   </div>

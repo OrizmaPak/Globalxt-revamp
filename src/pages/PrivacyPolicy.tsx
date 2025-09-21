@@ -1,12 +1,23 @@
+import image from '../assets/image3.jpg';
+
 const PrivacyPolicyPage = () => {
   return (
-    <div className="container-gxt py-16">
-      <h1 className="text-3xl font-semibold text-brand-deep">Privacy Policy</h1>
-      <p className="mt-4 max-w-3xl text-sm text-slate-600">
-        This placeholder outlines where Global XT Limited's privacy policy will reside. Update with
-        details on data collection, usage, retention, and customer rights once the live content is
-        ready.
-      </p>
+    <div className="relative overflow-hidden py-16">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url(${image})`,
+        }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/90 via-brand-chartreuse/80 to-transparent" />
+      <div className="container-gxt relative z-10">
+        <h1 className="text-3xl font-semibold text-brand-deep">Privacy Policy</h1>
+        <p className="mt-4 max-w-3xl text-sm text-slate-600">
+          This placeholder outlines where Global XT Limited's privacy policy will reside. Update with
+          details on data collection, usage, retention, and customer rights once the live content is
+          ready.
+        </p>
+      </div>
     </div>
   );
 };

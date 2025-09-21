@@ -1,6 +1,9 @@
 import { Link, useParams } from 'react-router-dom';
-import ImageWithFallback from '../components/ImageWithFallback';
 import { productCategories } from '../data/siteContent';
+import image from '../assets/image3.jpg';
+import Breadcrumb from '../components/Breadcrumb';
+import { useState } from 'react';
+import type { Product } from '../types/content';
 
 const ProductDetailPage = () => {
   const { categorySlug, productSlug } = useParams();
@@ -26,32 +29,69 @@ const ProductDetailPage = () => {
 
   return (
     <div className="bg-white">
-      <section className="relative overflow-hidden">
-        <div className="relative h-80 w-full">
-          <ImageWithFallback src={product.image} alt={product.name} />
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-deep via-brand-deep/70 to-brand-deep/40" />
-        </div>
-        <div className="absolute inset-0 bg-brand-deep/60" />
-        <div className="relative py-14 text-white">
-          <div className="container-gxt">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-yellow">
-              {category.name}
-            </span>
-            <h1 className="mt-4 text-3xl font-semibold">{product.name}</h1>
-            <p className="mt-4 max-w-3xl text-sm text-white/80">{product.summary}</p>
-            <div className="mt-6 flex flex-wrap gap-3 text-xs text-white/80">
-              {product.origins.map((origin) => (
-                <span key={origin} className="rounded-full border border-white/30 px-3 py-1">
-                  Origin: {origin}
-                </span>
-              ))}
-            </div>
+      <section className="relative overflow-hidden py-16">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${image})`,
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/90 via-brand-chartreuse/80 to-transparent" />
+        <div className="container-gxt relative z-10">
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+            {category.name}
+          </span>
+          <h1 className="mt-4 text-3xl font-semibold text-brand-deep">{product.name}</h1>
+          <p className="mt-4 max-w-3xl text-sm text-slate-600">{product.summary}</p>
+          <div className="mt-6 flex flex-wrap gap-3 text-xs text-slate-600">
+            {product.origins.map((origin) => (
+              <span key={origin} className="rounded-full border border-slate-300 px-3 py-1">
+                Origin: {origin}
+              </span>
+            ))}
           </div>
         </div>
       </section>
+      <Breadcrumb />
 
-      <section className="container-gxt grid gap-8 py-16 lg:grid-cols-[1.2fr,0.8fr] lg:items-start">
-        <div>
+      <section className="container-gxt grid gap-8 py-16 lg:grid-cols-[320px,1fr,0.8fr] lg:items-start">
+        {/* Sidebar */}
+        <aside className="order-1 lg:order-none rounded-3xl border border-slate-100 bg-white p-6 shadow-sm mb-8 lg:mb-0 lg:sticky lg:top-28 lg:max-h-[80vh] lg:overflow-y-auto">
+          {/* Categories */}
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-brand-primary mb-2">Categories</h3>
+            <ul className="space-y-1 mb-6">
+              {productCategories.map((cat) => (
+                <li key={cat.slug}>
+                  <Link
+                    to={`/products/${cat.slug}`}
+                    className={`block rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${cat.slug === category.slug ? 'bg-brand-lime/20 text-brand-primary' : 'text-brand-deep hover:bg-brand-lime/10'}`}
+                  >
+                    {cat.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          {/* Products in Category */}
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-brand-primary mb-2">{category.name} Products</h3>
+            <ul className="space-y-1">
+              {category.products.map((prod) => (
+                <li key={prod.slug}>
+                  <Link
+                    to={`/products/${category.slug}/${prod.slug}`}
+                    className={`block rounded-lg px-3 py-2 text-sm transition-colors ${prod.slug === product.slug ? 'bg-brand-primary text-white' : 'text-brand-deep hover:bg-brand-primary/10'}`}
+                  >
+                    {prod.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+        {/* Main Content */}
+        <div className="lg:col-start-2">
           <h2 className="text-xl font-semibold text-brand-deep">Product overview</h2>
           <p className="mt-4 text-sm leading-6 text-slate-600">{product.description}</p>
 
@@ -94,8 +134,11 @@ const ProductDetailPage = () => {
             )}
           </div>
         </div>
-        <aside className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-brand-deep">Ready to request a quote?</h2>
+        {/* Quote/Contact Aside with Gallery at the Top */}
+        <aside className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm lg:col-start-3">
+          {/* Gallery Section */}
+          <GalleryInAside product={product} />
+          <h2 className="text-lg font-semibold text-brand-deep mt-6">Ready to request a quote?</h2>
           <p className="mt-3 text-sm text-slate-600">
             Provide your product specs, target volumes, and INCOTERM preference. Our commercial team
             will respond with pricing, lead times, and documentation requirements.
@@ -121,9 +164,80 @@ const ProductDetailPage = () => {
             </a>
           </div>
         </aside>
+        {/* BottomTabs: span only main+aside columns, not sidebar */}
+        <div className="lg:col-start-2 lg:col-end-4">
+          <BottomTabs product={product} />
+        </div>
       </section>
+      {/* Bottom Tab Section */}
     </div>
   );
 };
 
 export default ProductDetailPage;
+
+// GalleryInAside component
+const GalleryInAside = ({ product }: { product: Product }) => {
+  const [mainImg, setMainImg] = useState(product.image);
+  // Simulate 10 images by duplicating the main image
+  const images = Array(10).fill(product.image);
+  return (
+    <div className="mb-6">
+      <h2 className="text-base font-semibold text-brand-deep mb-3">Gallery</h2>
+      <div className="flex flex-col gap-3 items-center">
+        <img
+          src={mainImg}
+          alt={product.name}
+          className="rounded-2xl object-cover max-h-56 w-full border border-slate-200 shadow-md mb-2"
+        />
+        <div className="flex flex-wrap gap-2 justify-center">
+          {images.map((img, idx) => (
+            <img
+              key={idx}
+              src={img}
+              alt={`${product.name} ${idx + 1}`}
+              onClick={() => setMainImg(img)}
+              className={`w-12 h-12 object-cover rounded-lg border border-slate-200 shadow-sm hover:scale-105 transition-transform cursor-pointer ${mainImg === img ? 'ring-2 ring-brand-primary' : ''}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// BottomTabs component
+const BottomTabs = ({ product }: { product: Product }) => {
+  const [tab, setTab] = useState('about');
+  return (
+    <section className="container-gxt mt-16 mb-12">
+      <div className="flex gap-2 border-b border-brand-primary/20 mb-6">
+        <button
+          className={`px-4 py-2 font-semibold text-sm rounded-t-lg transition-colors ${tab === 'about' ? 'bg-brand-primary text-white' : 'text-brand-deep hover:bg-brand-primary/10'}`}
+          onClick={() => setTab('about')}
+        >
+          About the Product
+        </button>
+        <button
+          className={`px-4 py-2 font-semibold text-sm rounded-t-lg transition-colors ${tab === 'trade' ? 'bg-brand-primary text-white' : 'text-brand-deep hover:bg-brand-primary/10'}`}
+          onClick={() => setTab('trade')}
+        >
+          Trade Process
+        </button>
+      </div>
+      <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm min-h-[120px]">
+        {tab === 'about' ? (
+          <div>
+            <h3 className="text-lg font-semibold mb-2 text-brand-deep">About the Product</h3>
+            <p className="text-sm text-slate-600">{product.description}</p>
+          </div>
+        ) : (
+          <div>
+            <h3 className="text-lg font-semibold mb-2 text-brand-deep">Trade Process</h3>
+            <p className="text-sm text-slate-600">Our trade process ensures quality, compliance, and timely delivery. (Replace this with your real trade process content.)</p>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};

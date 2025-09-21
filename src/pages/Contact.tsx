@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { contactChannels, companyInfo } from '../data/siteContent';
+import image from '../assets/image3.jpg';
+import Breadcrumb from '../components/Breadcrumb';
 
 const ContactPage = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -12,8 +14,15 @@ const ContactPage = () => {
 
   return (
     <div className="bg-white">
-      <section className="bg-slate-50 py-16">
-        <div className="container-gxt">
+      <section className="relative overflow-hidden py-16">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${image})`,
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/90 via-brand-chartreuse/80 to-transparent" />
+        <div className="container-gxt relative z-10">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
             Contact
           </span>
@@ -24,6 +33,7 @@ const ContactPage = () => {
           </p>
         </div>
       </section>
+      <Breadcrumb />
 
       <section className="container-gxt grid gap-8 py-16 lg:grid-cols-[1.1fr,0.9fr] lg:items-start">
         <form onSubmit={handleSubmit} className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
