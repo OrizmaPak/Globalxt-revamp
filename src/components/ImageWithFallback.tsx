@@ -5,7 +5,9 @@ export type ImageWithFallbackProps = React.ImgHTMLAttributes<HTMLImageElement> &
   fallbackSrc?: string;
 };
 
-const defaultFallback = 'https://placehold.co/800x600?text=Image+Placeholder';
+import fallbackPlaceholder from '../assets/images/placeholder.jpg';
+
+const defaultFallback = fallbackPlaceholder;
 
 const ImageWithFallback = ({
   fallbackSrc = defaultFallback,

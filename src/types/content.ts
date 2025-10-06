@@ -70,6 +70,11 @@ export interface ResourceArticle {
   summary: string;
   category: string;
   publishedOn: string;
+  image: string;
+  author: string;
+  readTime: string;
+  tags: string[];
+  content: string; // full blog post body
 }
 
 export interface ContactChannel {

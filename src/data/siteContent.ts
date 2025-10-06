@@ -1,3 +1,4 @@
+import { pageCopy } from './pageCopy';
 import type {
   ContactChannel,
   HeroSlide,
@@ -8,6 +9,46 @@ import type {
   ResourceArticle,
   ServiceOffering,
 } from '../types/content';
+// Local image assets
+import fallbackPlaceholder from '../assets/images/placeholder.jpg';
+import heroLogistics from '../assets/images/hero_logistics.jpg';
+import heroQuality from '../assets/images/hero_quality.jpg';
+import heroTraining from '../assets/images/hero_training.jpg';
+import catSpicesHerbs from '../assets/images/cat_spices_herbs.jpg';
+import catSeedsGrains from '../assets/images/cat_seeds_grains.jpg';
+import catNutsMore from '../assets/images/cat_nuts_more.jpg';
+import prodGinger from '../assets/images/ginger.jpg';
+import prodHibiscus from '../assets/images/hibiscus.jpg';
+import prodBlackStoneFlower from '../assets/images/black_stone_flower.jpg';
+import prodTurmeric from '../assets/images/turmeric.jpg';
+import prodRedChilli from '../assets/images/red_chilli.jpg';
+import prodPepper from '../assets/images/pepper.jpg';
+import prodGarlic from '../assets/images/garlic.jpg';
+import prodCloves from '../assets/images/cloves.jpg';
+import prodSesame from '../assets/images/sesame.jpg';
+import prodPopcorn from '../assets/images/popcorn.jpg';
+import prodMaizeDerivatives from '../assets/images/maize_derivatives.jpg';
+import prodSheaButter from '../assets/images/shea_butter.jpg';
+import prodBlackEyedBeans from '../assets/images/black_eyed_beans.jpg';
+import prodPeanuts from '../assets/images/peanuts.jpg';
+import prodMoringaSeeds from '../assets/images/moringa_seeds.jpg';
+import prodCocoaBeans from '../assets/images/cocoa_beans.jpg';
+import prodMillet from '../assets/images/millet.jpg';
+import prodSoybeans from '../assets/images/soybeans.jpg';
+import prodBreadfruit from '../assets/images/breadfruit.jpg';
+import prodTigerNuts from '../assets/images/tiger_nuts.jpg';
+import prodBitterKola from '../assets/images/bitter_kola.jpg';
+import prodKolaNut from '../assets/images/kola_nut.jpg';
+import prodAlmond from '../assets/images/almond.jpg';
+import prodDates from '../assets/images/dates.jpg';
+import prodGumArabic from '../assets/images/gum_arabic.jpg';
+import prodPKO from '../assets/images/palm_kernel_oil.jpg';
+import prodPeanutOil from '../assets/images/peanut_oil.jpg';
+import prodPalmOil from '../assets/images/palm_oil.jpg';
+import prodNaturalRubber from '../assets/images/natural_rubber.jpg';
+import articleSesame from '../assets/images/article_sesame.jpg';
+import articleCashew from '../assets/images/article_cashew.jpg';
+import articleExports from '../assets/images/article_exports.jpg';
 
 export const companyInfo = {
   name: 'Global XT Limited',
@@ -35,8 +76,7 @@ export const heroSlides: HeroSlide[] = [
       'We partner with growers, processors, and global buyers to move premium agro commodities from Africa to the world.',
     ctaLabel: 'Contact Us',
     ctaHref: '/contact',
-    image:
-      'https://images.unsplash.com/photo-1604335399105-a0c271925355?auto=format&fit=crop&w=1600&q=80',
+    image: heroLogistics,
   },
   {
     id: 'quality',
@@ -45,8 +85,7 @@ export const heroSlides: HeroSlide[] = [
       'From traceable harvesting to export documentation, we deliver consistent quality that meets global regulatory standards.',
     ctaLabel: 'Explore Products',
     ctaHref: '/products',
-    image:
-      'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1600&q=80',
+    image: heroQuality,
   },
   {
     id: 'training',
@@ -55,34 +94,11 @@ export const heroSlides: HeroSlide[] = [
       'Empower your team with practical export intelligence, compliance know-how, and market entry strategies for agro commodities.',
     ctaLabel: 'View Services',
     ctaHref: '/consulting',
-    image:
-      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=80',
+    image: heroTraining,
   },
 ];
 
-const placeholderImage = (keyword: string) =>
-  `https://images.unsplash.com/${keyword}?auto=format&fit=crop&w=1200&q=80`;
-
-const spicesImages = [
-  'photo-1601000938259-9c91d3d0d5ce',
-  'photo-1461009683693-342af2f2d6ce',
-  'photo-1542838132-92c53300491e',
-  'photo-1543357480-c60d064b6f90',
-];
-
-const grainsImages = [
-  'photo-1506806732259-39c2d0268443',
-  'photo-1506807803488-8eafc15323c1',
-  'photo-1498550744921-75f79806b8a7',
-  'photo-1505935428862-770b6f24f629',
-];
-
-const nutsImages = [
-  'photo-1503481766315-7a586b20f66c',
-  'photo-1486887396153-fa416526c108',
-  'photo-1518831959414-0b5e37069a86',
-  'photo-1459411552884-841db9b3cc2a',
-];
+// Fallback is applied if any product forgets to define an image
 
 const createProduct = (data: Partial<Product> & Pick<Product, 'name' | 'slug'>): Product => ({
   slug: data.slug,
@@ -92,7 +108,7 @@ const createProduct = (data: Partial<Product> & Pick<Product, 'name' | 'slug'>):
   description:
     data.description ??
     'Our sourcing network ensures each consignment is carefully cleaned, graded, and prepared for international buyers. We supervise field aggregation, processing, and export documentation to guarantee consistency batch after batch.',
-  image: data.image ?? placeholderImage('photo-1501004318641-b39e6451bec6'),
+  image: data.image ?? fallbackPlaceholder,
   origins: data.origins ?? ['Nigeria', 'West Africa'],
   specifications:
     data.specifications ?? [
@@ -115,7 +131,7 @@ export const productCategories: ProductCategory[] = [
     tagline: 'Bold flavors, globally trusted supply',
     summary:
       'From fiery peppers to aromatic botanicals, our spice portfolio is curated for food and nutraceutical brands that demand consistent potency.',
-    heroImage: placeholderImage(spicesImages[0]),
+    heroImage: catSpicesHerbs,
     highlights: [
       'Cold-chain and ambient logistics options',
       'Custom grinding and packaging support',
@@ -126,6 +142,7 @@ export const productCategories: ProductCategory[] = [
         slug: 'ginger',
         name: 'Ginger',
         summary: 'Split and whole Nigerian ginger with high oleoresin content.',
+        image: prodGinger,
         specifications: ['Moisture: <= 10%', 'Oil content: >= 2%'],
       }),
       createProduct({
@@ -133,23 +150,27 @@ export const productCategories: ProductCategory[] = [
         name: 'Dry Hibiscus Flower',
         summary: 'Sun-dried petals ideal for teas, nutraceuticals, and natural colorants.',
         origins: ['Nigeria'],
+        image: prodHibiscus,
         specifications: ['Moisture: <= 8%', 'Color value: >= 14 ASTA'],
       }),
       createProduct({
         slug: 'black-stone-flower',
         name: 'Black Stone Flower',
         summary: 'Hand-picked kalpasi with rich umami profile for gourmet blends.',
+        image: prodBlackStoneFlower,
       }),
       createProduct({
         slug: 'turmeric',
         name: 'Fresh & Dried Turmeric',
         summary: 'High-curcumin turmeric fingers and powder for spice houses worldwide.',
+        image: prodTurmeric,
         specifications: ['Curcumin: >= 4%', 'Moisture: <= 8%'],
       }),
       createProduct({
         slug: 'red-chilli-pepper',
         name: 'Red Chilli Pepper',
         summary: 'Sun-dried S17/S4 chillies processed to customer heat specifications.',
+        image: prodRedChilli,
         specifications: ['Scoville: 30,000 - 50,000 SHU'],
       }),
       createProduct({
@@ -157,18 +178,21 @@ export const productCategories: ProductCategory[] = [
         name: 'Yellow & Black Pepper',
         summary: 'Cameroon and Nigerian peppercorns with deep aroma and uniform caliber.',
         origins: ['Nigeria', 'Cameroon'],
+        image: prodPepper,
         specifications: ['Density: >= 550 g/L'],
       }),
       createProduct({
         slug: 'garlic',
         name: 'Fresh & Dried Garlic',
         summary: 'Processed cloves, flakes, and powder guaranteed for pungency and shelf life.',
+        image: prodGarlic,
       }),
       createProduct({
         slug: 'cloves',
         name: 'Cloves',
         summary: 'Whole Zanzibar cloves with vibrant essential oil profile.',
         origins: ['Nigeria', 'Tanzania'],
+        image: prodCloves,
         specifications: ['Headless pods: <= 7%'],
       }),
     ],
@@ -179,7 +203,7 @@ export const productCategories: ProductCategory[] = [
     tagline: 'Traceable consignments for millers and processors',
     summary:
       'We aggregate and process cereal grains, oil seeds, and legumes that meet exacting requirements for FMGC and industrial buyers.',
-    heroImage: placeholderImage(grainsImages[0]),
+    heroImage: catSeedsGrains,
     highlights: [
       'Moisture-controlled storage facilities',
       'Dedicated QA laboratories for each shipment',
@@ -190,28 +214,28 @@ export const productCategories: ProductCategory[] = [
         slug: 'sesame-seeds',
         name: 'Sesame Seeds',
         summary: 'Hulled and natural white sesame seeds for tahini, oil presses, and bakery brands.',
-        image: placeholderImage(grainsImages[1]),
+        image: prodSesame,
         specifications: ['FFA: <= 2%', 'Moisture: <= 7%'],
       }),
       createProduct({
         slug: 'popcorn-maize',
         name: 'Popcorn Maize',
         summary: 'High-expansion butterfly popcorn maize sorted for premium snack manufacturers.',
-        image: placeholderImage(grainsImages[2]),
+        image: prodPopcorn,
         specifications: ['Expansion rate: >= 42:1'],
       }),
       createProduct({
         slug: 'maize-corn-derivatives',
         name: 'Maize, Corn Flour, Corn Grits, Cornmeal, & Corn Bran',
         summary: 'Integrated maize derivatives processed to customer mesh sizes and functional requirements.',
-        image: placeholderImage(grainsImages[3]),
+        image: prodMaizeDerivatives,
         specifications: ['Moisture: <= 12%', 'Aflatoxin: <= 10 ppb'],
       }),
       createProduct({
         slug: 'shea-butter-oil',
         name: 'Shea Butter & Shea Oil',
         summary: 'Refined and unrefined shea products with consistent texture and fatty acid profile.',
-        image: placeholderImage('photo-1504674900247-0877df9cc836'),
+        image: prodSheaButter,
         specifications: ['FFA: <= 1%', 'Moisture: <= 0.2%'],
         logistics: ['Export drums, flexi-tanks, and retail packaging options'],
       }),
@@ -219,28 +243,28 @@ export const productCategories: ProductCategory[] = [
         slug: 'black-eyed-beans',
         name: 'Black Eyed Beans (Cowpea)',
         summary: 'Machine-cleaned cowpea with uniform grain size and reduced weevil damage.',
-        image: placeholderImage('photo-1486887396153-fa416526c108'),
+        image: prodBlackEyedBeans,
         specifications: ['Moisture: <= 12%', 'Defective grains: <= 1%'],
       }),
       createProduct({
         slug: 'peanuts',
         name: 'Peanuts',
         summary: 'Runner and Spanish groundnuts ready for roasting, oil extraction, or peanut butter.',
-        image: placeholderImage('photo-1498837167922-ddd27525d352'),
+        image: prodPeanuts,
         specifications: ['Moisture: <= 8%', 'Aflatoxin: <= 4 ppb'],
       }),
       createProduct({
         slug: 'moringa-seeds',
         name: 'Moringa Seeds',
         summary: 'High oil-yield moringa seeds sourced from certified outgrowers.',
-        image: placeholderImage('photo-1559261384-7952cf6d30fb'),
+        image: prodMoringaSeeds,
         specifications: ['Oil content: >= 35%'],
       }),
       createProduct({
         slug: 'cocoa-beans',
         name: 'Cocoa Beans',
         summary: 'FERCA-certified cocoa beans for bean-to-bar artisans and grinders.',
-        image: placeholderImage('photo-1524592094714-0f0654e20314'),
+        image: prodCocoaBeans,
         specifications: ['Moisture: <= 7.5%', 'Mould: <= 4%'],
         logistics: ['Shipped in jute bags with hermetic liners'],
       }),
@@ -248,21 +272,21 @@ export const productCategories: ProductCategory[] = [
         slug: 'millet',
         name: 'Millet',
         summary: 'Pearl and finger millet cleaned for beverages and flour processors.',
-        image: placeholderImage('photo-1511690656952-34342bb7c2f2'),
+        image: prodMillet,
         specifications: ['Moisture: <= 12%'],
       }),
       createProduct({
         slug: 'soybeans',
         name: 'Soybeans',
         summary: 'Non-GMO soybeans suited for crushing, soy flour, and feed applications.',
-        image: placeholderImage('photo-1502740479091-635887520276'),
+        image: prodSoybeans,
         specifications: ['Protein: >= 34%', 'Moisture: <= 12%'],
       }),
       createProduct({
         slug: 'breadfruit',
         name: 'Breadfruit',
         summary: 'Sun-dried breadfruit chips milled to flour or supplied whole on demand.',
-        image: placeholderImage('photo-1504671983453-94c01c0a1ccc'),
+        image: prodBreadfruit,
         logistics: ['Bulk cartons and frozen logistics available'],
       }),
     ],
@@ -273,7 +297,7 @@ export const productCategories: ProductCategory[] = [
     tagline: 'High-value botanicals and specialty commodities',
     summary:
       'Diversify your sourcing portfolio with traceable nuts, botanicals, resins, and natural oils trusted by global manufacturers.',
-    heroImage: placeholderImage(nutsImages[0]),
+    heroImage: catNutsMore,
     highlights: [
       'Ethically sourced from farmer cooperatives',
       'Value-added processing and crush services',
@@ -284,46 +308,46 @@ export const productCategories: ProductCategory[] = [
         slug: 'tiger-nuts',
         name: 'Tiger Nuts',
         summary: 'Ready-to-process tiger nuts for plant-based milk and healthy snacks.',
-        image: placeholderImage(nutsImages[1]),
+        image: prodTigerNuts,
         specifications: ['Moisture: <= 10%'],
       }),
       createProduct({
         slug: 'bitter-kola',
         name: 'Bitter Kola',
         summary: 'Sorted bitter kola nuts prized for nutraceutical and beverage formulations.',
-        image: placeholderImage(nutsImages[2]),
+        image: prodBitterKola,
       }),
       createProduct({
         slug: 'kola-nut',
         name: 'Kola Nut',
         summary: 'Red and white kola nuts harvested from GAP-compliant orchards.',
-        image: placeholderImage('photo-1444858291040-58f756a3bdd6'),
+        image: prodKolaNut,
       }),
       createProduct({
         slug: 'almond',
         name: 'Almond',
         summary: 'Premium almond kernels sourced through trusted global alliances.',
-        image: placeholderImage('photo-1511389026070-a14ae610a1be'),
+        image: prodAlmond,
         origins: ['Nigeria', 'Partner origins'],
       }),
       createProduct({
         slug: 'dates',
         name: 'Dates',
         summary: 'Semi-dry Deglet Noor and Medjool dates packed for retail and ingredient usage.',
-        image: placeholderImage('photo-1524350876685-274059332603'),
+        image: prodDates,
       }),
       createProduct({
         slug: 'gum-arabic',
         name: 'Gum Arabic',
         summary: 'Grade A and Kordofan gum arabic for confectionery, beverage, and pharmaceutical applications.',
-        image: placeholderImage('photo-1524592094714-0f0654e20314'),
+        image: prodGumArabic,
         specifications: ['Moisture: <= 12%', 'Purity: >= 99%'],
       }),
       createProduct({
         slug: 'palm-kernel-oil',
         name: 'Palm Kernel Oil (PKO)',
         summary: 'Expeller-pressed PKO with consistent FFA profile for soap and oleochemical industries.',
-        image: placeholderImage('photo-1441999732824-210c2bb97100'),
+        image: prodPKO,
         specifications: ['FFA: <= 2%'],
         logistics: ['Flexi-tanks, drums, and IBC totes'],
       }),
@@ -331,20 +355,20 @@ export const productCategories: ProductCategory[] = [
         slug: 'peanut-oil',
         name: 'Peanut (Groundnut) Oil',
         summary: 'Refined groundnut oil with golden clarity for culinary and industrial users.',
-        image: placeholderImage('photo-1441999732824-210c2bb97100'),
+        image: prodPeanutOil,
       }),
       createProduct({
         slug: 'palm-oil',
         name: 'Palm Oil',
         summary: 'RBD palm oil meeting RSPO-aligned sustainability benchmarks.',
-        image: placeholderImage('photo-1423483641154-5411ec9c0ddf'),
+        image: prodPalmOil,
         specifications: ['FFA: <= 5%'],
       }),
       createProduct({
         slug: 'natural-rubber',
         name: 'Natural Rubber',
         summary: 'TSR and RSS grades delivered with inspection certificates for manufacturing.',
-        image: placeholderImage('photo-1422207239328-29f838542f95'),
+        image: prodNaturalRubber,
         specifications: ['Dirt: <= 0.08%', 'Ash: <= 0.5%'],
       }),
     ],
@@ -448,6 +472,61 @@ export const resourceArticles: ResourceArticle[] = [
       'Five-point checklist for evaluating farmers, processors, and export partners before you commit.',
     category: 'Insights',
     publishedOn: 'July 2025',
+    image: articleSesame,
+    author: 'Sarah Johnson',
+    readTime: '8 min read',
+    tags: ['Sourcing', 'Quality Control', 'West Africa', 'Sesame'],
+    content: `
+      <p>When sourcing sesame seeds from West Africa, quality is paramount. This comprehensive guide walks you through the essential steps to ensure you're working with the best suppliers and getting premium products.</p>
+      
+      <h2>1. Farmer Verification and Certification</h2>
+      <p>Start by verifying that your potential suppliers work with certified farmers. Look for:</p>
+      <ul>
+        <li>GAP (Good Agricultural Practices) certification</li>
+        <li>Organic certification where applicable</li>
+        <li>Traceability documentation from farm to export</li>
+        <li>Regular soil testing and quality assessments</li>
+      </ul>
+      
+      <h2>2. Processing Facility Standards</h2>
+      <p>The processing facility should meet international standards:</p>
+      <ul>
+        <li>HACCP certification for food safety</li>
+        <li>ISO 22000 or equivalent quality management</li>
+        <li>Proper storage facilities with temperature control</li>
+        <li>Regular pest control and hygiene protocols</li>
+      </ul>
+      
+      <h2>3. Quality Testing Protocols</h2>
+      <p>Ensure comprehensive testing is conducted:</p>
+      <ul>
+        <li>Moisture content (should be ≤ 7%)</li>
+        <li>Foreign matter analysis (≤ 1%)</li>
+        <li>Aflatoxin testing (≤ 10 ppb)</li>
+        <li>Pesticide residue analysis</li>
+        <li>Oil content and purity tests</li>
+      </ul>
+      
+      <h2>4. Export Documentation and Compliance</h2>
+      <p>Verify all necessary documentation is in place:</p>
+      <ul>
+        <li>Phytosanitary certificates</li>
+        <li>Certificate of origin</li>
+        <li>Quality certificates from accredited labs</li>
+        <li>Export permits and licenses</li>
+      </ul>
+      
+      <h2>5. Supply Chain Transparency</h2>
+      <p>Work with partners who provide:</p>
+      <ul>
+        <li>Real-time tracking from farm to port</li>
+        <li>Regular updates on harvest conditions</li>
+        <li>Transparent pricing and payment terms</li>
+        <li>Long-term partnership agreements</li>
+      </ul>
+      
+      <p>By following this checklist, you'll significantly reduce risks and ensure consistent quality in your sesame seed sourcing from West Africa.</p>
+    `,
   },
   {
     slug: 'global-cashew-market-trends',
@@ -456,6 +535,68 @@ export const resourceArticles: ResourceArticle[] = [
       'A forward look at demand, pricing, and certification requirements impacting nut exporters.',
     category: 'Market Watch',
     publishedOn: 'August 2025',
+    image: articleCashew,
+    author: 'Michael Chen',
+    readTime: '12 min read',
+    tags: ['Market Analysis', 'Cashew', 'Nuts', 'Global Trade', 'Pricing'],
+    content: `
+      <p>The global nut market continues to evolve rapidly, with cashews leading the charge in premium positioning and sustainable sourcing practices.</p>
+      
+      <h2>Market Size and Growth Projections</h2>
+      <p>The global cashew market is projected to reach $7.2 billion by 2025, driven by:</p>
+      <ul>
+        <li>Increasing health consciousness among consumers</li>
+        <li>Growing demand for plant-based proteins</li>
+        <li>Expansion of snack and confectionery industries</li>
+        <li>Rising disposable incomes in emerging markets</li>
+      </ul>
+      
+      <h2>Regional Demand Patterns</h2>
+      <h3>North America</h3>
+      <p>Remains the largest market, with premium positioning driving higher margins. Organic and fair-trade certifications are becoming standard requirements.</p>
+      
+      <h3>Europe</h3>
+      <p>Strict quality standards and sustainability requirements are reshaping supply chains. EU regulations on aflatoxin levels continue to tighten.</p>
+      
+      <h3>Asia-Pacific</h3>
+      <p>Fastest growing region, particularly in China and India. Local processing capabilities are expanding rapidly.</p>
+      
+      <h2>Pricing Trends and Volatility</h2>
+      <p>Cashew prices have shown significant volatility due to:</p>
+      <ul>
+        <li>Weather-related supply disruptions</li>
+        <li>Currency fluctuations in producing countries</li>
+        <li>Transportation cost increases</li>
+        <li>Processing capacity constraints</li>
+      </ul>
+      
+      <h2>Certification Requirements</h2>
+      <p>Key certifications becoming essential:</p>
+      <ul>
+        <li>Fair Trade certification for ethical sourcing</li>
+        <li>Organic certification for premium markets</li>
+        <li>Rainforest Alliance for sustainability</li>
+        <li>HACCP and ISO 22000 for food safety</li>
+      </ul>
+      
+      <h2>Technology and Innovation</h2>
+      <p>Digital transformation is reshaping the industry:</p>
+      <ul>
+        <li>Blockchain for supply chain transparency</li>
+        <li>AI-powered quality assessment</li>
+        <li>IoT sensors for storage monitoring</li>
+        <li>Mobile apps for farmer engagement</li>
+      </ul>
+      
+      <h2>Future Outlook</h2>
+      <p>Exporters should focus on:</p>
+      <ul>
+        <li>Building long-term supplier relationships</li>
+        <li>Investing in quality infrastructure</li>
+        <li>Adopting sustainable practices</li>
+        <li>Diversifying market reach</li>
+      </ul>
+    `,
   },
   {
     slug: 'nigeria-export-documentation',
@@ -464,6 +605,125 @@ export const resourceArticles: ResourceArticle[] = [
       'A handy checklist covering NEPC registration, SONCAP, phytosanitary, and shipping paperwork.',
     category: 'Guides',
     publishedOn: 'September 2025',
+    image: articleExports,
+    author: 'Adebayo Ogunlesi',
+    readTime: '15 min read',
+    tags: ['Export Documentation', 'Nigeria', 'Compliance', 'NEPC', 'SONCAP'],
+    content: `
+      <p>Exporting agro commodities from Nigeria requires meticulous attention to documentation. This comprehensive guide covers all essential paperwork to ensure smooth customs clearance and compliance.</p>
+      
+      <h2>Pre-Export Requirements</h2>
+      
+      <h3>1. NEPC Registration</h3>
+      <p>All exporters must register with the Nigerian Export Promotion Council (NEPC):</p>
+      <ul>
+        <li>Complete NEPC registration form</li>
+        <li>Provide company registration documents (CAC)</li>
+        <li>Submit tax clearance certificate</li>
+        <li>Obtain NEPC certificate (valid for 2 years)</li>
+      </ul>
+      
+      <h3>2. Product Registration</h3>
+      <p>Register your specific products:</p>
+      <ul>
+        <li>Product registration with NEPC</li>
+        <li>Quality specifications documentation</li>
+        <li>Origin verification certificates</li>
+      </ul>
+      
+      <h2>Quality and Safety Certifications</h2>
+      
+      <h3>SONCAP (Standards Organization of Nigeria Conformity Assessment Program)</h3>
+      <p>Required for most agro commodities:</p>
+      <ul>
+        <li>Apply for SONCAP certificate</li>
+        <li>Submit product test reports from accredited labs</li>
+        <li>Provide manufacturer's declaration</li>
+        <li>Pay applicable fees</li>
+      </ul>
+      
+      <h3>Phytosanitary Certificate</h3>
+      <p>Issued by the Nigerian Agricultural Quarantine Service (NAQS):</p>
+      <ul>
+        <li>Apply at least 7 days before shipment</li>
+        <li>Provide product samples for inspection</li>
+        <li>Submit origin verification documents</li>
+        <li>Pay inspection and certificate fees</li>
+      </ul>
+      
+      <h2>Shipping Documentation</h2>
+      
+      <h3>Commercial Invoice</h3>
+      <p>Must include:</p>
+      <ul>
+        <li>Exporter and importer details</li>
+        <li>Product description and specifications</li>
+        <li>Quantity, unit price, and total value</li>
+        <li>Incoterms and payment terms</li>
+        <li>Country of origin</li>
+      </ul>
+      
+      <h3>Packing List</h3>
+      <p>Detailed breakdown of:</p>
+      <ul>
+        <li>Package contents and quantities</li>
+        <li>Package dimensions and weights</li>
+        <li>Marking and numbering</li>
+      </ul>
+      
+      <h3>Bill of Lading/Air Waybill</h3>
+      <p>Transport document issued by carrier</p>
+      
+      <h2>Financial Documentation</h2>
+      
+      <h3>Form M</h3>
+      <p>Required for all exports over $5,000:</p>
+      <ul>
+        <li>Complete Form M application</li>
+        <li>Attach proforma invoice</li>
+        <li>Submit to authorized dealer bank</li>
+        <li>Obtain Form M approval</li>
+      </ul>
+      
+      <h3>Certificate of Origin</h3>
+      <p>Issued by NEPC or Chamber of Commerce</p>
+      
+      <h2>Special Requirements by Destination</h2>
+      
+      <h3>EU Markets</h3>
+      <ul>
+        <li>Additional phytosanitary requirements</li>
+        <li>Pesticide residue testing</li>
+        <li>Traceability documentation</li>
+      </ul>
+      
+      <h3>US Markets</h3>
+      <ul>
+        <li>FDA registration for food products</li>
+        <li>Prior notice requirements</li>
+        <li>Biosecurity certificates</li>
+      </ul>
+      
+      <h2>Common Pitfalls to Avoid</h2>
+      <ul>
+        <li>Incomplete or incorrect documentation</li>
+        <li>Missing signatures or stamps</li>
+        <li>Expired certificates</li>
+        <li>Inconsistent information across documents</li>
+        <li>Late submission of required documents</li>
+      </ul>
+      
+      <h2>Timeline Planning</h2>
+      <p>Allow sufficient time for:</p>
+      <ul>
+        <li>NEPC registration: 2-3 weeks</li>
+        <li>SONCAP certification: 1-2 weeks</li>
+        <li>Phytosanitary certificate: 1 week</li>
+        <li>Form M processing: 3-5 days</li>
+      </ul>
+      
+      <p>Proper documentation is crucial for successful agro commodity exports from Nigeria. Start early, double-check all requirements, and maintain good relationships with regulatory agencies.</p>
+    `,
   },
 ];
 
@@ -511,11 +771,6 @@ export const navItems: NavItem[] = [
   {
     label: 'About Us',
     path: '/about',
-    children: [
-      { label: 'Our Company', path: '/about#company' },
-      { label: 'Vision & Mission', path: '/about#vision' },
-      { label: 'Our Team', path: '/about#team' },
-    ],
   },
   {
     label: 'Products',
@@ -564,4 +819,8 @@ export const navItems: NavItem[] = [
 
 
 
+
+
+
+export { pageCopy };
 

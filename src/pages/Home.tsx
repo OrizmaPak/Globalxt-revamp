@@ -2,14 +2,7 @@ import { ArrowRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import HeroCarousel from '../components/HeroCarousel';
 import ImageWithFallback from '../components/ImageWithFallback';
-import Breadcrumb from '../components/Breadcrumb';
-import {
-  companyInfo,
-  industrySegments,
-  productCategories,
-  resourceArticles,
-  whyChooseUs,
-} from '../data/siteContent';
+import { useContent } from '../context/ContentProvider';
 import {
   ShieldCheckIcon,
   CurrencyDollarIcon,
@@ -32,6 +25,12 @@ const highlightMetrics = [
 
 
 const HomePage = () => {
+  const { content } = useContent();
+  const companyInfo = content?.companyInfo ?? { whatsapp: '', phone: '' } as any;
+  const productCategories = content?.productCategories ?? [];
+  const industrySegments = content?.industrySegments ?? [];
+  const whyChooseUs = content?.whyChooseUs ?? [];
+  const resourceArticles = content?.resourceArticles ?? [];
   return (
     <div className="bg-white">
       <HeroCarousel />
@@ -147,7 +146,7 @@ const HomePage = () => {
               >
                 <div className="relative h-48 overflow-hidden">
                   <ImageWithFallback src={category.heroImage} alt={category.name} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/40 via-brand-deep/10 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/70 via-brand-deep/30 to-transparent" />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
                   <h3 className="text-lg font-semibold text-brand-deep group-hover:text-brand-primary">
@@ -301,3 +300,4 @@ const HomePage = () => {
 };
 
 export default HomePage;
+

@@ -1,20 +1,23 @@
 import { Link } from 'react-router-dom';
 import ImageWithFallback from '../components/ImageWithFallback';
-import { productCategories } from '../data/siteContent';
+import { useContent } from '../context/ContentProvider';
 import image from '../assets/image3.jpg';
 import Breadcrumb from '../components/Breadcrumb';
 
 const ProductsPage = () => {
+  const { content } = useContent();
+  const productCategories = content?.productCategories ?? [];
+  const heroBg = content?.pageImages?.defaultHero ?? image;
   return (
     <div className="bg-white">
       <section className="relative overflow-hidden py-16">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url(${image})`,
+            backgroundImage: `url(${heroBg})`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/90 via-brand-chartreuse/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/95 via-brand-chartreuse/90 to-transparent" />
         <div className="container-gxt relative z-10">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
             Our Products
@@ -78,7 +81,7 @@ const ProductsPage = () => {
               </div>
               <div className="relative h-64 overflow-hidden rounded-3xl">
                 <ImageWithFallback src={category.heroImage} alt={category.name} />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/40 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/70 via-brand-deep/20 to-transparent" />
               </div>
             </article>
           ))}

@@ -1,12 +1,16 @@
 import { Link, useParams } from 'react-router-dom';
-import { productCategories } from '../data/siteContent';
+import { useContent } from '../context/ContentProvider';
 import image from '../assets/image3.jpg';
 import Breadcrumb from '../components/Breadcrumb';
+import AddToEnquiryButton from '../components/AddToEnquiryButton';
 import { useState } from 'react';
 import type { Product } from '../types/content';
 
 const ProductDetailPage = () => {
   const { categorySlug, productSlug } = useParams();
+  const { content } = useContent();
+  const productCategories = content?.productCategories ?? [];
+  const heroBg = content?.pageImages?.defaultHero ?? image;
   const category = productCategories.find((item) => item.slug === categorySlug);
   const product = category?.products.find((item) => item.slug === productSlug);
 
@@ -33,10 +37,10 @@ const ProductDetailPage = () => {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url(${image})`,
+            backgroundImage: `url(${heroBg})`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/90 via-brand-chartreuse/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/95 via-brand-chartreuse/90 to-transparent" />
         <div className="container-gxt relative z-10">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
             {category.name}
@@ -144,9 +148,17 @@ const ProductDetailPage = () => {
             will respond with pricing, lead times, and documentation requirements.
           </p>
           <div className="mt-6 space-y-3">
+            <AddToEnquiryButton
+              categorySlug={categorySlug!}
+              productSlug={productSlug!}
+              productName={product.name}
+              productImage={product.image}
+              size="lg"
+              className="w-full justify-center"
+            />
             <Link
               to="/contact"
-              className="block rounded-full bg-brand-primary px-5 py-3 text-center text-sm font-semibold text-white hover:bg-brand-lime"
+              className="block rounded-full bg-brand-chartreuse px-5 py-3 text-center text-sm font-semibold text-brand-deep hover:bg-brand-lime"
             >
               Request a quote
             </Link>

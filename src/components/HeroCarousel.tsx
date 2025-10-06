@@ -1,22 +1,34 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { heroSlides } from '../data/siteContent';
+import { useContent } from '../context/ContentProvider';
 import ImageWithFallback from './ImageWithFallback';
 
 const autoPlayDelay = 6500;
 
 const HeroCarousel = () => {
-  const slides = useMemo(() => heroSlides, []);
+  const { content } = useContent();
+  const slides = useMemo(() => content?.heroSlides ?? [], [content]);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    if (!slides.length) return undefined;
     const timer = window.setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
     }, autoPlayDelay);
 
     return () => window.clearInterval(timer);
   }, [slides.length]);
+
+  useEffect(() => {
+    if (!slides.length) {
+      setIndex(0);
+    } else {
+      setIndex((prev) => (prev < slides.length ? prev : 0));
+    }
+  }, [slides.length]);
+
+  if (!slides.length) return null;
 
   const goTo = (next: number) => {
     const total = slides.length;

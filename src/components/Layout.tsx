@@ -3,9 +3,12 @@ import { Outlet, useLocation } from 'react-router-dom';
 import HeaderTopBar from './HeaderTopBar';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import { useContent } from '../context/ContentProvider';
+import LogoLoader from './LogoLoader';
 
 const Layout = () => {
   const { pathname } = useLocation();
+  const { loading } = useContent();
 
   useEffect(() => {
     // Scroll to top when route changes
@@ -15,6 +18,10 @@ const Layout = () => {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
   }, [pathname]);
+
+  if (loading) {
+    return <LogoLoader />;
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-white relative">

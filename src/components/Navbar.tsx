@@ -14,7 +14,8 @@ import clsx from 'clsx';
 
 import ImageWithFallback from './ImageWithFallback';
 import logo from '../assets/logo.png';
-import { companyInfo, navItems } from '../data/siteContent';
+import { useContent } from '../context/ContentProvider';
+import type { NavItem } from '../types/content';
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -23,7 +24,7 @@ const scrollToTop = () => {
 };
 
 
-type NavConfig = (typeof navItems)[number];
+type NavConfig = NavItem;
 
 type MegaMenuProps = {
   item: NavConfig;
@@ -39,7 +40,7 @@ type MobileNavProps = {
 const navLinkBase =
   'relative px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.24em] transition-all duration-300';
 
-const mobileSupportItems = [
+const buildMobileSupport = (companyInfo: { phone: string; hours: string; rcNumber: string }) => [
   { label: 'Call us', value: companyInfo.phone, href: 'tel:' + companyInfo.phone },
   { label: 'Opening Hours', value: companyInfo.hours },
   { label: 'RC Number', value: companyInfo.rcNumber },
@@ -60,7 +61,7 @@ const filterColumns = (columns: NonNullable<NavConfig['megaMenu']>, query: strin
     .filter((column) => column.items.length > 0);
 };
 
-const DesktopNav = ({ tone }: { tone: 'floating' | 'pinned' }) => {
+const DesktopNav = ({ tone, items }: { tone: 'floating' | 'pinned'; items: NavConfig[] }) => {
   const baseColorClasses =
     tone === 'floating'
       ? 'text-brand-deep/90 hover:text-brand-primary'
@@ -68,7 +69,7 @@ const DesktopNav = ({ tone }: { tone: 'floating' | 'pinned' }) => {
 
   return (
     <nav className="hidden flex-1 items-center justify-center gap-2 lg:flex">
-      {navItems.map((item) => {
+      {items.map((item) => {
         if (item.megaMenu) {
           return <MegaMenu key={item.label} item={item} tone={tone} />;
         }
@@ -169,7 +170,7 @@ const MegaMenu = ({ item, tone }: MegaMenuProps) => {
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                        {filtered.map((column) => (
+                          {filtered.map((column: any) => (
                           <div key={column.title} className="space-y-4">
                             <div>
                               <p className="text-[0.58rem] font-semibold uppercase tracking-[0.4em] text-brand-primary">
@@ -178,7 +179,7 @@ const MegaMenu = ({ item, tone }: MegaMenuProps) => {
                               <div className="mt-2 h-[2px] w-9 rounded-full bg-brand-primary/40" />
                             </div>
                             <ul className="space-y-3">
-                              {column.items.map((link) => (
+                                {column.items.map((link: any) => (
                                 <li key={link.path}>
                                    <NavLink
                                      to={link.path}
@@ -285,10 +286,10 @@ const DropdownNavItem = ({ item, tone }: DropdownNavItemProps) => {
   );
 };
 
-const MobileNav = ({ onNavigate, queries, onQueryChange }: MobileNavProps) => {
+const MobileNav = ({ onNavigate, queries, onQueryChange, items }: MobileNavProps & { items: NavConfig[] }) => {
   return (
     <div className="space-y-3">
-      {navItems.map((item) => {
+      {items.map((item) => {
         const key = item.label;
         const query = queries[key] ?? '';
         const columns = item.megaMenu ?? [];
@@ -334,13 +335,13 @@ const MobileNav = ({ onNavigate, queries, onQueryChange }: MobileNavProps) => {
                       ))}
                       {item.megaMenu && (
                         <div className="space-y-3">
-                          {filtered.map((column) => (
+                          {filtered.map((column: any) => (
                             <div key={column.title}>
                               <p className="text-[0.6rem] font-semibold uppercase tracking-[0.4em] text-brand-primary">
                                 {column.title}
                               </p>
                               <div className="mt-2 space-y-1">
-                                {column.items.map((link) => (
+                                {column.items.map((link: any) => (
                                    <NavLink
                                      key={link.path}
                                      to={link.path}
@@ -386,6 +387,9 @@ const MobileNav = ({ onNavigate, queries, onQueryChange }: MobileNavProps) => {
 
 const Navbar = () => {
   const { pathname } = useLocation();
+  const { content } = useContent();
+  const items: NavConfig[] = content?.navItems ?? [];
+  const company = content?.companyInfo ?? { phone: '', hours: '', rcNumber: '', exportLicense: '' } as any;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -435,9 +439,9 @@ const Navbar = () => {
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-brand-primary/30 bg-white shadow-sm">
                 <ImageWithFallback src={logo} alt="Global XT" className="h-6 w-6 object-contain" />
               </div>
-              <span className="text-[0.6rem] font-semibold uppercase tracking-[0.3em]">Export Licence {companyInfo.exportLicense}</span>
+              <span className="text-[0.6rem] font-semibold uppercase tracking-[0.3em]">Export Licence {company.exportLicense}</span>
             </NavLink>
-            <DesktopNav tone={navTone} />
+            <DesktopNav tone={navTone} items={items} />
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -510,15 +514,9 @@ const Navbar = () => {
                 <XMarkIcon className="h-5 w-5" />
               </button>
             </div>
-            <MobileNav
-              onNavigate={() => setMobileOpen(false)}
-              queries={mobileQueries}
-              onQueryChange={(key, value) =>
-                setMobileQueries((prev) => ({ ...prev, [key]: value }))
-              }
-            />
+            <MobileNav onNavigate={() => setMobileOpen(false)} queries={mobileQueries} onQueryChange={(key, value) => setMobileQueries((prev) => ({ ...prev, [key]: value }))} items={items} />
             <div className="mt-6 space-y-3 text-xs uppercase tracking-[0.32em] text-brand-deep/60">
-              {mobileSupportItems.map((item) => (
+              {buildMobileSupport(company).map((item) => (
                 <div key={item.label} className="flex items-center justify-between rounded-2xl border border-brand-primary/20 bg-brand-lime/10 px-4 py-3 text-[0.7rem]">
                   <span>{item.label}</span>
                   {item.href ? (
@@ -534,11 +532,11 @@ const Navbar = () => {
             <div className="mt-6 rounded-2xl border border-brand-primary/20 bg-gradient-to-r from-brand-primary/5 to-brand-lime/10 p-4 text-brand-deep">
               <p className="text-sm font-semibold text-brand-primary">Need help?</p>
               <a
-                href={'tel:' + companyInfo.phone}
+                href={'tel:' + company.phone}
                 className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-lime"
               >
                 <PhoneArrowUpRightIcon className="h-4 w-4" />
-                Call {companyInfo.phone}
+                Call {company.phone}
               </a>
             </div>
           </div>
@@ -549,3 +547,11 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+
+
+
+
+
+

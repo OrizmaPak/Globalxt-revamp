@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { contactChannels, companyInfo } from '../data/siteContent';
+import { useContent } from '../context/ContentProvider';
 import image from '../assets/image3.jpg';
 import Breadcrumb from '../components/Breadcrumb';
 
 const ContactPage = () => {
   const [submitted, setSubmitted] = useState(false);
+  const { content } = useContent();
+  const contactChannels = content?.contactChannels ?? [];
+  const companyInfo = content?.companyInfo ?? { address: '' } as any;
+  const heroBg = content?.pageImages?.defaultHero ?? image;
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -18,10 +22,10 @@ const ContactPage = () => {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url(${image})`,
+            backgroundImage: `url(${heroBg})`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/90 via-brand-chartreuse/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/95 via-brand-chartreuse/90 to-transparent" />
         <div className="container-gxt relative z-10">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
             Contact

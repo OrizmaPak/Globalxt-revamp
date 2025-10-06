@@ -1,17 +1,20 @@
 import { Link } from 'react-router-dom';
 import image from '../assets/image3.jpg';
+import { useContent } from '../context/ContentProvider';
 import Breadcrumb from '../components/Breadcrumb';
 
 const NotFoundPage = () => {
+  const { content } = useContent();
+  const heroBg = content?.pageImages?.defaultHero ?? image;
   return (
     <div className="relative flex min-h-[60vh] flex-col items-center justify-center overflow-hidden text-center">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url(${image})`,
+          backgroundImage: `url(${heroBg})`,
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/90 via-brand-chartreuse/80 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/95 via-brand-chartreuse/90 to-transparent" />
       <div className="relative z-10 flex flex-col items-center justify-center gap-4">
         <h1 className="text-4xl font-semibold text-brand-deep">Page not found</h1>
         <p className="mt-4 max-w-md text-sm text-slate-600">

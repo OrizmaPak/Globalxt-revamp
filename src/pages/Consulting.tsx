@@ -1,19 +1,33 @@
 import { Link } from 'react-router-dom';
-import { serviceOfferings } from '../data/siteContent';
+import { useContent } from '../context/ContentProvider';
 import image from '../assets/image3.jpg';
 import Breadcrumb from '../components/Breadcrumb';
+import heroTraining from '../assets/images/hero_training.jpg';
+import heroQuality from '../assets/images/hero_quality.jpg';
+import articleExports from '../assets/images/article_exports.jpg';
+import heroLogistics from '../assets/images/hero_logistics.jpg';
+
+const serviceThumb: Record<string, string> = {
+  'world-class-export-consulting-service': heroLogistics,
+  'export-training': heroTraining,
+  'trade-licence-registrations': articleExports,
+  'brokerage-program': heroQuality,
+};
 
 const ConsultingPage = () => {
+  const { content } = useContent();
+  const serviceOfferings = content?.serviceOfferings ?? [];
+  const heroBg = content?.pageImages?.defaultHero ?? image;
   return (
     <div className="bg-white">
       <section className="relative overflow-hidden py-16">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url(${image})`,
+            backgroundImage: `url(${heroBg})`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/90 via-brand-chartreuse/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/95 via-brand-chartreuse/90 to-transparent" />
         <div className="container-gxt relative z-10">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
             Consulting Suite
@@ -35,18 +49,27 @@ const ConsultingPage = () => {
             <article
               id={service.slug}
               key={service.slug}
-              className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm"
+              className="grid gap-6 overflow-hidden rounded-3xl border border-slate-100 bg-white p-0 shadow-sm sm:grid-cols-[0.6fr,1.4fr]"
             >
-              <h2 className="text-2xl font-semibold text-brand-deep">{service.name}</h2>
-              <p className="mt-3 text-sm text-slate-600">{service.summary}</p>
-              <ul className="mt-4 space-y-2 text-sm text-slate-600">
-                {service.details.map((detail) => (
-                  <li key={detail} className="flex items-start gap-2">
-                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-brand-lime" />
-                    <span>{detail}</span>
-                  </li>
-                ))}
-              </ul>
+              <img src={serviceThumb[service.slug] ?? heroQuality} alt="Service" className="h-full w-full object-cover" />
+              <div className="p-6">
+                <h2 className="text-2xl font-semibold text-brand-deep">{service.name}</h2>
+                <p className="mt-3 text-sm text-slate-600">{service.summary}</p>
+                <ul className="mt-4 space-y-2 text-sm text-slate-600">
+                  {service.details.map((detail) => (
+                    <li key={detail} className="flex items-start gap-2">
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-brand-lime" />
+                      <span>{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  to={`/consulting/${service.slug}`}
+                  className="mt-5 inline-block text-sm font-semibold text-brand-primary underline"
+                >
+                  Learn more
+                </Link>
+              </div>
             </article>
           ))}
         </div>

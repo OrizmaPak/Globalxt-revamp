@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
-import {
-  companyInfo,
-  contactChannels,
-  productCategories,
-  quickLinks,
-} from '../data/siteContent';
+import { useContent } from '../context/ContentProvider';
 
 const Footer = () => {
   const year = new Date().getFullYear();
+  const { content } = useContent();
+  const companyInfo = content?.companyInfo ?? { address: '', socialLinks: [] as any[] } as any;
+  const productCategories = content?.productCategories ?? [];
+  const quickLinks = content?.quickLinks ?? [];
+  const contactChannels = content?.contactChannels ?? [];
   return (
     <footer className="bg-brand-deep text-white">
       <div className="container-gxt grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-4">
@@ -22,7 +22,7 @@ const Footer = () => {
             {companyInfo.address}
           </p>
           <div className="mt-6 flex gap-3">
-            {companyInfo.socialLinks.map((social) => (
+            {companyInfo.socialLinks.map((social: { label: string; href: string }) => (
               <a
                 key={social.label}
                 href={social.href}

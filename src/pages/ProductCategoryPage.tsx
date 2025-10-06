@@ -1,11 +1,15 @@
 import { Link, useParams } from 'react-router-dom';
 import ImageWithFallback from '../components/ImageWithFallback';
-import { productCategories } from '../data/siteContent';
+import AddToEnquiryButton from '../components/AddToEnquiryButton';
+import { useContent } from '../context/ContentProvider';
 import image from '../assets/image3.jpg';
 import Breadcrumb from '../components/Breadcrumb';
 
 const ProductCategoryPage = () => {
   const { categorySlug } = useParams();
+  const { content } = useContent();
+  const productCategories = content?.productCategories ?? [];
+  const heroBg = content?.pageImages?.defaultHero ?? image;
   const category = productCategories.find((item) => item.slug === categorySlug);
 
   if (!category) {
@@ -31,10 +35,10 @@ const ProductCategoryPage = () => {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url(${image})`,
+            backgroundImage: `url(${heroBg})`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/90 via-brand-chartreuse/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/95 via-brand-chartreuse/90 to-transparent" />
         <div className="container-gxt relative z-10">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
             {category.name}
@@ -65,25 +69,44 @@ const ProductCategoryPage = () => {
         </div>
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {category.products.map((product) => (
-            <Link
+            <div
               key={product.slug}
-              to={`/products/${category.slug}/${product.slug}`}
               className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:border-brand-lime hover:shadow-lg"
             >
-              <div className="relative h-48 overflow-hidden">
+              <Link
+                to={`/products/${category.slug}/${product.slug}`}
+                className="relative h-48 overflow-hidden"
+              >
                 <ImageWithFallback src={product.image} alt={product.name} />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/40 via-transparent to-transparent" />
-              </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-deep/70 via-brand-deep/20 to-transparent" />
+              </Link>
               <div className="flex flex-1 flex-col p-6">
-                <h3 className="text-lg font-semibold text-brand-deep group-hover:text-brand-primary">
-                  {product.name}
-                </h3>
+                <Link to={`/products/${category.slug}/${product.slug}`}>
+                  <h3 className="text-lg font-semibold text-brand-deep group-hover:text-brand-primary">
+                    {product.name}
+                  </h3>
+                </Link>
                 <p className="mt-2 flex-1 text-sm text-slate-600">{product.summary}</p>
-                <span className="mt-4 text-xs font-semibold uppercase tracking-[0.2em] text-brand-primary">
-                  View specs
-                </span>
+                
+                <div className="mt-4 space-y-3">
+                  <AddToEnquiryButton
+                    categorySlug={category.slug}
+                    productSlug={product.slug}
+                    productName={product.name}
+                    productImage={product.image}
+                    size="md"
+                    className="w-full justify-center"
+                    showSuccessMessage={false}
+                  />
+                  <Link
+                    to={`/products/${category.slug}/${product.slug}`}
+                    className="block text-center text-xs font-semibold uppercase tracking-[0.2em] text-brand-primary hover:text-brand-deep"
+                  >
+                    View specs →
+                  </Link>
+                </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </section>

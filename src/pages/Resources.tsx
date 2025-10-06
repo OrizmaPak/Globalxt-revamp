@@ -1,7 +1,9 @@
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { resourceArticles } from '../data/siteContent';
+import { useContent } from '../context/ContentProvider';
 import image from '../assets/image3.jpg';
+import { Link } from 'react-router-dom';
+import Breadcrumb from '../components/Breadcrumb';
 
 const faqs = [
   {
@@ -22,16 +24,19 @@ const faqs = [
 ];
 
 const ResourcesPage = () => {
+  const { content } = useContent();
+  const resourceArticles = content?.resourceArticles ?? [];
+  const heroBg = content?.pageImages?.defaultHero ?? image;
   return (
     <div className="bg-white">
       <section className="relative overflow-hidden py-16">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url(${image})`,
+            backgroundImage: `url(${heroBg})`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/90 via-brand-chartreuse/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/95 via-brand-chartreuse/90 to-transparent" />
         <div className="container-gxt relative z-10">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
             Knowledge Hub
@@ -43,22 +48,56 @@ const ResourcesPage = () => {
           </p>
         </div>
       </section>
+      <Breadcrumb />
 
       <section id="blog" className="container-gxt py-16">
-        <div className="grid gap-6 md:grid-cols-3">
-          {resourceArticles.map((article) => (
-            <article
-              key={article.slug}
-              className="flex h-full flex-col rounded-3xl border border-slate-100 bg-white p-6 shadow-sm"
-            >
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
-                {article.category}
-              </p>
-              <h2 className="mt-4 text-lg font-semibold text-brand-deep">{article.title}</h2>
-              <p className="mt-3 flex-1 text-sm text-slate-600">{article.summary}</p>
-              <p className="mt-4 text-xs text-slate-400">Published {article.publishedOn}</p>
-            </article>
-          ))}
+        <div className="flex gap-8">
+          {/* Sidebar */}
+          <aside className="hidden md:block w-56 flex-shrink-0">
+            <div className="sticky top-28 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-brand-primary">Categories</h3>
+              <ul className="space-y-3">
+                <li>
+                  <a href="#" className="block text-brand-deep hover:text-brand-primary font-medium transition">Insights</a>
+                </li>
+                <li>
+                  <a href="#" className="block text-brand-deep hover:text-brand-primary font-medium transition">Market Watch</a>
+                </li>
+                <li>
+                  <a href="#" className="block text-brand-deep hover:text-brand-primary font-medium transition">Guides</a>
+                </li>
+              </ul>
+            </div>
+          </aside>
+          {/* Blog Cards */}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 flex-1">
+            {resourceArticles.map((article) => (
+              <Link
+                key={article.slug}
+                to={`/resources/${article.slug}`}
+                className="block h-full"
+              >
+                <article
+                  className="flex h-full flex-col rounded-3xl border border-slate-100 bg-white p-0 shadow-sm overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="h-40 w-full object-cover rounded-t-3xl"
+                    loading="lazy"
+                  />
+                  <div className="p-6 flex flex-col flex-1">
+                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+                      {article.category}
+                    </p>
+                    <h2 className="mt-4 text-lg font-semibold text-brand-deep">{article.title}</h2>
+                    <p className="mt-3 flex-1 text-sm text-slate-600">{article.summary}</p>
+                    <p className="mt-4 text-xs text-slate-400">Published {article.publishedOn}</p>
+                  </div>
+                </article>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

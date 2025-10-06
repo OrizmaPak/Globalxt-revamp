@@ -6,33 +6,24 @@ import {
 } from '@heroicons/react/24/outline';
 import ImageWithFallback from './ImageWithFallback';
 import logo from '../assets/logo.png';
-import { companyInfo } from '../data/siteContent';
+import { useContent } from '../context/ContentProvider';
 
-const infoItems = [
-  {
-    label: 'Call us',
-    value: companyInfo.phone,
-    href: 'tel:' + companyInfo.phone,
-    Icon: PhoneIcon,
-  },
-  {
-    label: 'Opening Hours',
-    value: companyInfo.hours,
-    Icon: ClockIcon,
-  },
-  {
-    label: 'RC Number',
-    value: companyInfo.rcNumber,
-    Icon: BuildingOffice2Icon,
-  },
-  {
-    label: 'Export Licence No.',
-    value: companyInfo.exportLicense,
-    Icon: ShieldCheckIcon,
-  },
+const buildInfoItems = (companyInfo: {
+  phone: string;
+  hours: string;
+  rcNumber: string;
+  exportLicense: string;
+}) => [
+  { label: 'Call us', value: companyInfo.phone, href: 'tel:' + companyInfo.phone, Icon: PhoneIcon },
+  { label: 'Opening Hours', value: companyInfo.hours, Icon: ClockIcon },
+  { label: 'RC Number', value: companyInfo.rcNumber, Icon: BuildingOffice2Icon },
+  { label: 'Export Licence No.', value: companyInfo.exportLicense, Icon: ShieldCheckIcon },
 ];
 
 const HeaderTopBar = () => {
+  const { content } = useContent();
+  const company = content?.companyInfo ?? { phone: '', hours: '', rcNumber: '', exportLicense: '' } as any;
+  const infoItems = buildInfoItems(company);
   return (
     <div className="border-b border-slate-100 bg-white">
       <div className="container-gxt flex flex-col gap-4 py-1 md:flex-row md:items-center md:justify-between">
