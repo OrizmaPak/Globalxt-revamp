@@ -1,0 +1,95 @@
+/* Smart Edit Mode Styles - Fallback approach using CSS */
+
+.smart-edit-active h1,
+.smart-edit-active h2,
+.smart-edit-active h3,
+.smart-edit-active h4,
+.smart-edit-active h5,
+.smart-edit-active h6 {
+  position: relative;
+}
+
+.smart-edit-active h1:hover,
+.smart-edit-active h2:hover,
+.smart-edit-active h3:hover,
+.smart-edit-active h4:hover,
+.smart-edit-active h5:hover,
+.smart-edit-active h6:hover {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  border: 2px dashed #3b82f6 !important;
+  cursor: pointer !important;
+}
+
+.smart-edit-active p {
+  position: relative;
+}
+
+.smart-edit-active p:hover {
+  background-color: rgba(34, 197, 94, 0.1) !important;
+  border: 2px dashed #22c55e !important;
+  cursor: pointer !important;
+}
+
+.smart-edit-active button,
+.smart-edit-active .btn,
+.smart-edit-active [role="button"] {
+  position: relative;
+}
+
+.smart-edit-active button:hover,
+.smart-edit-active .btn:hover,
+.smart-edit-active [role="button"]:hover {
+  background-color: rgba(239, 68, 68, 0.1) !important;
+  border: 2px dashed #ef4444 !important;
+  cursor: pointer !important;
+}
+
+.smart-edit-active a[href] {
+  position: relative;
+}
+
+.smart-edit-active a[href]:hover {
+  background-color: rgba(168, 85, 247, 0.1) !important;
+  border: 2px dashed #a855f7 !important;
+  cursor: pointer !important;
+}
+
+.smart-edit-active span {
+  position: relative;
+}
+
+.smart-edit-active span:hover {
+  background-color: rgba(156, 163, 175, 0.1) !important;
+  border: 2px dashed #9ca3af !important;
+  cursor: pointer !important;
+}
+
+/* Edit indicator pseudo-element */
+.smart-edit-active h1:hover::after,
+.smart-edit-active h2:hover::after,
+.smart-edit-active h3:hover::after,
+.smart-edit-active h4:hover::after,
+.smart-edit-active h5:hover::after,
+.smart-edit-active h6:hover::after,
+.smart-edit-active p:hover::after,
+.smart-edit-active button:hover::after,
+.smart-edit-active .btn:hover::after,
+.smart-edit-active [role="button"]:hover::after,
+.smart-edit-active a[href]:hover::after,
+.smart-edit-active span:hover::after {
+  content: "✏️";
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  z-index: 9999;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

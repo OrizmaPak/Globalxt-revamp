@@ -30,3 +30,4 @@ dist-ssr
 globexia.com
 globexia.com/**
 ./globexia.com/**
+.vercel

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useAdminNotifications } from '../context/AdminNotificationProvider';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import firebaseApp from '../lib/firebase';
 import type { SiteContent } from '../lib/contentTypes';
@@ -41,6 +42,7 @@ const normalizeMap = (mapObj: Record<string, string> | undefined) => {
 };
 
 const AdminContentSync = () => {
+  const { notify } = useAdminNotifications();
   const [status, setStatus] = useState<string>('Idle');
   const [detail, setDetail] = useState<string>('');
 
@@ -64,8 +66,8 @@ const AdminContentSync = () => {
       setDetail('Building content payload with Cloudinary URLs where available');
       const payload = buildPayload();
       
-      console.log('🔍 Raw payload keys:', Object.keys(payload));
-      console.log('🔍 Raw payload sample:', {
+      console.log('?? Raw payload keys:', Object.keys(payload));
+      console.log('?? Raw payload sample:', {
         companyInfo: payload.companyInfo,
         heroSlidesCount: payload.heroSlides?.length,
         productCategoriesCount: payload.productCategories?.length
@@ -79,8 +81,8 @@ const AdminContentSync = () => {
       setDetail('Removing undefined values to prevent Firebase errors...');
       const cleanPayload = sanitizeForFirebase(payload);
       
-      console.log('✨ Sanitized payload keys:', Object.keys(cleanPayload));
-      console.log('✨ Checking for undefined values...');
+      console.log('? Sanitized payload keys:', Object.keys(cleanPayload));
+      console.log('? Checking for undefined values...');
       
       // Quick check for any remaining undefined values
       const jsonStr = JSON.stringify(cleanPayload);
@@ -94,11 +96,14 @@ const AdminContentSync = () => {
       await setDoc(doc(db, 'content/site'), cleanPayload, { merge: false });
 
       setStatus('Success');
-      setDetail(`Content uploaded to Firestore at content/site\n\nData summary:\n- Company info: ${cleanPayload.companyInfo ? '✅' : '❌'}\n- Hero slides: ${cleanPayload.heroSlides?.length || 0}\n- Product categories: ${cleanPayload.productCategories?.length || 0}\n- Page copy: ${cleanPayload.pageCopy ? '✅' : '❌'}`);
+      setDetail(`Content uploaded to Firestore at content/site\n\nData summary:\n- Company info: ${cleanPayload.companyInfo ? '?' : '?'}\n- Hero slides: ${cleanPayload.heroSlides?.length || 0}\n- Product categories: ${cleanPayload.productCategories?.length || 0}\n- Page copy: ${cleanPayload.pageCopy ? '?' : '?'}`);
+      notify({ type: 'success', title: 'Content sync complete', message: 'Content was uploaded to Firestore.' });
     } catch (err: any) {
       setStatus('Error');
-      console.error('❌ Sync error:', err);
-      setDetail(`Error: ${err?.message ?? String(err)}\n\nCheck browser console for detailed logs.`);
+      console.error('? Sync error:', err);
+      const message = err?.message ?? String(err);
+      setDetail(`Error: ${message}\n\nCheck browser console for detailed logs.`);
+      notify({ type: 'error', title: 'Content sync failed', message });
     }
   };
 
@@ -127,5 +132,3 @@ const AdminContentSync = () => {
 };
 
 export default AdminContentSync;
-
-

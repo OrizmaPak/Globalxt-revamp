@@ -46,11 +46,25 @@ const HeaderTopBar = () => {
                   {label}
                 </p>
                 {href ? (
-                  <a href={href} className="font-semibold text-brand-deep hover:text-brand-primary">
+                  <a 
+                    href={href} 
+                    className="font-semibold text-brand-deep hover:text-brand-primary"
+                    data-content-path={label === 'Call us' ? 'companyInfo.phone' : undefined}
+                  >
                     {value}
                   </a>
                 ) : (
-                  <p className="font-semibold text-brand-deep">{value}</p>
+                  <p 
+                    className="font-semibold text-brand-deep"
+                    data-content-path={
+                      label === 'Opening Hours' ? 'companyInfo.hours' :
+                      label === 'RC Number' ? 'companyInfo.rcNumber' :
+                      label === 'Export Licence No.' ? 'companyInfo.exportLicense' :
+                      undefined
+                    }
+                  >
+                    {value}
+                  </p>
                 )}
               </div>
             </div>

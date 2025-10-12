@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useEnquiryCart } from '../context/EnquiryCartProvider';
 import { getApiUrl, getDefaultHeaders, API_CONFIG } from '../config/api';
+import { chatService } from '../services/chatService';
 
 const EnquiryCartPanel = () => {
   const {
@@ -78,12 +79,37 @@ const EnquiryCartPanel = () => {
     setIsSending(true);
 
     try {
+      // 1) Create or update chat room with enquiry first
+      let chatRoomId = null;
+      try {
+        const chatRoom = await chatService.createOrGetChatRoom(
+          contactDetails.email,
+          contactDetails.name
+        );
+        
+        // Add enquiry message to chat room
+        await chatService.addEnquiryMessage(
+          chatRoom.id,
+          {
+            products: items,
+            generalMessage,
+            contactDetails
+          },
+          {
+            name: contactDetails.name,
+            email: contactDetails.email
+          }
+        );
+        
+        chatRoomId = chatRoom.id;
+        console.log('Chat room created/updated successfully:', chatRoom.id);
+      } catch (chatError) {
+        console.error('Error creating chat room:', chatError);
+        // Continue without chat room if it fails
+      }
+
       // Build shared strings
       const prettyCategory = (slug: string) => slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
-      const productsText = items.map((item, index) => (
-        `${index + 1}. ${item.name}\n   Category: ${prettyCategory(item.categorySlug)}\n   ${item.notes ? `Notes: ${item.notes}` : 'No specific notes'}`
-      )).join('\n\n');
-
       const productsHtml = items.map((item, index) => (
         `<div style="margin-bottom:12px;padding:12px;border:1px solid #e5e7eb;border-radius:8px;background:#ffffff">
            <div style="font-weight:600;color:#065f46;margin-bottom:4px">${index + 1}. ${item.name}</div>
@@ -92,7 +118,32 @@ const EnquiryCartPanel = () => {
          </div>`
       )).join('');
 
-      // 1) Send business notification email
+      // Create chat link sections
+      const adminChatLinkSection = chatRoomId 
+        ? `<div style="margin-top:20px;text-align:center">
+             <a href="${window.location.origin}/admin/chat" 
+                style="display:inline-block;background:#0ea5e9;color:#fff;padding:12px 24px;text-decoration:none;border-radius:8px;font-weight:600;margin:8px">
+               💬 Open Admin Chat Dashboard
+             </a>
+             <p style="color:#6b7280;font-size:12px;margin-top:8px">
+               Click above to respond to ${contactDetails.name} in the chat dashboard.
+             </p>
+           </div>`
+        : '';
+      
+      const customerChatLinkSection = chatRoomId 
+        ? `<div style="margin-top:20px;text-align:center">
+             <a href="${window.location.origin}/chat/${chatRoomId}" 
+                style="display:inline-block;background:#10b981;color:#fff;padding:12px 24px;text-decoration:none;border-radius:8px;font-weight:600;margin:8px">
+               💬 Continue Conversation in Chat
+             </a>
+             <p style="color:#6b7280;font-size:12px;margin-top:8px">
+               Click above to access your personal chat room where you can communicate directly with our team.
+             </p>
+           </div>`
+        : '';
+
+      // 2) Send business notification email
       const businessSubject = `New Product Enquiry – ${contactDetails.name} (${items.length} item${items.length !== 1 ? 's' : ''})`;
       const businessMessage = `
         <div style="font-family:Inter,Arial,sans-serif;background:#f8fafc;padding:24px">
@@ -110,6 +161,7 @@ const EnquiryCartPanel = () => {
                 ${productsHtml || '<div style="color:#6b7280;font-style:italic">No products listed</div>'}
               </div>
               ${generalMessage ? `<div style="margin-top:12px"><div style=\"font-weight:600;color:#1f2937;margin-bottom:6px\">Customer Message</div><div style=\"background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px;color:#92400e\">${generalMessage.replace(/\n/g, '<br/>')}</div></div>` : ''}
+              ${adminChatLinkSection}
               <div style="margin-top:20px;color:#6b7280;font-size:12px">Reply to this message to contact the customer directly.</div>
             </div>
           </div>
@@ -135,7 +187,7 @@ const EnquiryCartPanel = () => {
         throw new Error(`Business email failed: ${errText}`);
       }
 
-      // 2) Send customer confirmation email
+      // 3) Send customer confirmation email
       const customerSubject = `Thank you for your enquiry, ${contactDetails.name}! - Global XT`;
       const customerMessage = `
         <div style="font-family:Inter,Arial,sans-serif;background:#f8fafc;padding:24px">
@@ -155,6 +207,7 @@ const EnquiryCartPanel = () => {
                 <div style="font-weight:600;color:#1f2937;margin-bottom:6px">Products</div>
                 ${productsHtml || '<div style="color:#6b7280;font-style:italic">No products listed</div>'}
               </div>
+              ${customerChatLinkSection}
               <p style="margin-top:16px;color:#6b7280;font-size:12px">If you didn\'t request this, please ignore this email.</p>
             </div>
           </div>
@@ -226,7 +279,7 @@ ${contactDetails.email}
 ${contactDetails.phone || ''}
       `;
       
-      const mailtoLink = `mailto:divinehelpfarmers@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const mailtoLink = `mailto:${API_CONFIG.RECIPIENT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       
       // Open default email client
       window.location.href = mailtoLink;
@@ -241,7 +294,7 @@ ${contactDetails.phone || ''}
       
     } catch (error) {
       console.error('Error creating email:', error);
-      setErrorMessage('Failed to create email. Please contact us directly at divinehelpfarmers@gmail.com');
+      setErrorMessage(`Failed to create email. Please contact us directly at ${API_CONFIG.RECIPIENT_EMAIL}`);
     }
   };
 
@@ -604,7 +657,7 @@ ${contactDetails.phone || ''}
                       required
                       placeholder="Your full name"
                       value={contactDetails.name}
-                      onChange={(e) => setContactDetails(prev => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) => setContactDetails({ ...contactDetails, name: e.target.value })}
                       className="w-full px-3 py-2 md:px-4 md:py-3 border-2 border-gray-200 rounded-xl bg-white shadow-sm
                                  focus:outline-none focus:ring-4 focus:ring-brand-primary/20 focus:border-brand-primary
                                  transition-all duration-200 placeholder-gray-500 text-sm md:text-base"
@@ -620,7 +673,7 @@ ${contactDetails.phone || ''}
                       type="tel"
                       placeholder="e.g., +234 801 234 5678"
                       value={contactDetails.phone || ''}
-                      onChange={(e) => setContactDetails(prev => ({ ...prev, phone: e.target.value }))}
+                      onChange={(e) => setContactDetails({ ...contactDetails, phone: e.target.value })}
                       className="w-full px-3 py-2 md:px-4 md:py-3 border-2 border-gray-200 rounded-xl bg-white shadow-sm
                                  focus:outline-none focus:ring-4 focus:ring-brand-primary/20 focus:border-brand-primary
                                  transition-all duration-200 placeholder-gray-500 text-sm md:text-base"
@@ -638,7 +691,7 @@ ${contactDetails.phone || ''}
                     required
                     placeholder="your.email@company.com"
                     value={contactDetails.email}
-                    onChange={(e) => setContactDetails(prev => ({ ...prev, email: e.target.value }))}
+                    onChange={(e) => setContactDetails({ ...contactDetails, email: e.target.value })}
                     className="w-full px-3 py-2 md:px-4 md:py-3 border-2 border-gray-200 rounded-xl bg-white shadow-sm
                                focus:outline-none focus:ring-4 focus:ring-brand-primary/20 focus:border-brand-primary
                                transition-all duration-200 placeholder-gray-500 text-sm md:text-base"

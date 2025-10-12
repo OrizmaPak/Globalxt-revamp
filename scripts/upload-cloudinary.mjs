@@ -1,13 +1,20 @@
 import { v2 as cloudinary } from 'cloudinary';
 import fs from 'node:fs';
 import path from 'node:path';
+import dotenv from 'dotenv';
 
-// Read credentials from env or hardcode here per user instruction.
-// WARNING: Do not commit secrets in production. Provided for this setup per request.
+dotenv.config();
+
+const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = process.env;
+if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_API_KEY || !CLOUDINARY_API_SECRET) {
+  console.error('Missing Cloudinary environment variables. Please set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET in .env');
+  process.exit(1);
+}
+
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'duoojkl6a',
-  api_key: process.env.CLOUDINARY_API_KEY || '188479395339865',
-  api_secret: process.env.CLOUDINARY_API_SECRET || 'lgIaazbgJxybUXAHyrm_pV6Xzw8',
+  cloud_name: CLOUDINARY_CLOUD_NAME,
+  api_key: CLOUDINARY_API_KEY,
+  api_secret: CLOUDINARY_API_SECRET,
   secure: true,
 });
 

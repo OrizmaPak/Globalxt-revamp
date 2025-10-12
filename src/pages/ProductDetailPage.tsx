@@ -3,7 +3,7 @@ import { useContent } from '../context/ContentProvider';
 import image from '../assets/image3.jpg';
 import Breadcrumb from '../components/Breadcrumb';
 import AddToEnquiryButton from '../components/AddToEnquiryButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Product } from '../types/content';
 
 const ProductDetailPage = () => {
@@ -13,6 +13,7 @@ const ProductDetailPage = () => {
   const heroBg = content?.pageImages?.defaultHero ?? image;
   const category = productCategories.find((item) => item.slug === categorySlug);
   const product = category?.products.find((item) => item.slug === productSlug);
+  const [layout, setLayout] = useState<'classic' | 'full'>('classic');
 
   if (!category || !product) {
     return (
@@ -58,7 +59,7 @@ const ProductDetailPage = () => {
       </section>
       <Breadcrumb />
 
-      <section className="container-gxt grid gap-8 py-16 lg:grid-cols-[320px,1fr,0.8fr] lg:items-start">
+      <section className="container-gxt grid gap-8 py-8 lg:grid-cols-[320px,1fr,0.8fr] lg:items-start">
         {/* Sidebar */}
         <aside className="order-1 lg:order-none rounded-3xl border border-slate-100 bg-white p-6 shadow-sm mb-8 lg:mb-0 lg:sticky lg:top-28 lg:max-h-[80vh] lg:overflow-y-auto">
           {/* Categories */}
@@ -141,7 +142,45 @@ const ProductDetailPage = () => {
         {/* Quote/Contact Aside with Gallery at the Top */}
         <aside className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm lg:col-start-3">
           {/* Gallery Section */}
-          <GalleryInAside product={product} />
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-base font-semibold text-brand-deep">Images</h2>
+            <div className="flex items-center gap-1" role="group" aria-label="Gallery layout">
+              <button
+                type="button"
+                onClick={() => setLayout('classic')}
+                className={`h-8 w-8 rounded-lg border flex items-center justify-center transition ${layout === 'classic' ? 'bg-brand-primary text-white border-brand-primary' : 'bg-white text-slate-600 border-slate-200 hover:border-brand-primary/50 hover:text-brand-primary'}`}
+                title="Box grid"
+                aria-label="Box grid"
+              >
+                {/* 2x2 grid icon */}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <rect x="3" y="3" width="8" height="8" rx="1"/>
+                  <rect x="13" y="3" width="8" height="8" rx="1"/>
+                  <rect x="3" y="13" width="8" height="8" rx="1"/>
+                  <rect x="13" y="13" width="8" height="8" rx="1"/>
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={() => setLayout('full')}
+                className={`h-8 w-8 rounded-lg border flex items-center justify-center transition ${layout === 'full' ? 'bg-brand-primary text-white border-brand-primary' : 'bg-white text-slate-600 border-slate-200 hover:border-brand-primary/50 hover:text-brand-primary'}`}
+                title="Full horizontal grid"
+                aria-label="Full horizontal grid"
+              >
+                {/* stacked rows icon */}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <rect x="3" y="4" width="18" height="4" rx="1"/>
+                  <rect x="3" y="10" width="18" height="4" rx="1"/>
+                  <rect x="3" y="16" width="18" height="4" rx="1"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          {layout === 'classic' ? (
+            <GalleryInAside product={product} />
+          ) : (
+            <FullImagesAside product={product} />
+          )}
           <h2 className="text-lg font-semibold text-brand-deep mt-6">Ready to request a quote?</h2>
           <p className="mt-3 text-sm text-slate-600">
             Provide your product specs, target volumes, and INCOTERM preference. Our commercial team
@@ -190,12 +229,17 @@ export default ProductDetailPage;
 
 // GalleryInAside component
 const GalleryInAside = ({ product }: { product: Product }) => {
-  const [mainImg, setMainImg] = useState(product.image);
-  // Simulate 10 images by duplicating the main image
-  const images = Array(10).fill(product.image);
+  // Always include main image as part of the gallery
+  const imagesCombined = [product.image, ...(((product as unknown as { images?: string[] }).images) ?? [])]
+    .filter((u) => !!u && String(u).trim().length > 0);
+  const images = Array.from(new Set(imagesCombined));
+  const [mainImg, setMainImg] = useState(images[0]);
+  useEffect(() => {
+    setMainImg(images[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.slug]);
   return (
     <div className="mb-6">
-      <h2 className="text-base font-semibold text-brand-deep mb-3">Gallery</h2>
       <div className="flex flex-col gap-3 items-center">
         <img
           src={mainImg}
@@ -205,7 +249,7 @@ const GalleryInAside = ({ product }: { product: Product }) => {
         <div className="flex flex-wrap gap-2 justify-center">
           {images.map((img, idx) => (
             <img
-              key={idx}
+              key={`${img}-${idx}`}
               src={img}
               alt={`${product.name} ${idx + 1}`}
               onClick={() => setMainImg(img)}
@@ -213,6 +257,29 @@ const GalleryInAside = ({ product }: { product: Product }) => {
             />
           ))}
         </div>
+      </div>
+    </div>
+  );
+};
+
+// FullImagesAside component (layout 2 in aside)
+const FullImagesAside = ({ product }: { product: Product }) => {
+  const imagesCombined = [product.image, ...(((product as unknown as { images?: string[] }).images) ?? [])]
+    .filter((u) => !!u && String(u).trim().length > 0);
+  const images = Array.from(new Set(imagesCombined));
+  if (!images.length) return null;
+  return (
+    <div className="mb-6">
+      <div className="space-y-3">
+        {images.map((src, idx) => (
+          <img
+            key={`${src}-${idx}`}
+            src={src}
+            alt={`${product.name} image ${idx + 1}`}
+            className="w-full rounded-2xl border border-slate-200 shadow-sm"
+            loading="lazy"
+          />
+        ))}
       </div>
     </div>
   );

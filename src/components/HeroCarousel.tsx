@@ -58,14 +58,23 @@ const HeroCarousel = () => {
             <span className="inline-flex items-center rounded-full border border-white/20 px-4 py-1 text-xs font-semibold uppercase tracking-[0.4em] text-brand-yellow">
               Global Reach, African Roots
             </span>
-            <h1 className="mt-6 text-3xl font-semibold leading-tight text-white sm:text-4xl lg:text-5xl">
+            <h1
+              className="mt-6 text-3xl font-semibold leading-tight text-white sm:text-4xl lg:text-5xl"
+              data-content-path={`heroSlides.${index}.title`}
+            >
               {currentSlide.title}
             </h1>
-            <p className="mt-6 text-base text-white/80 sm:text-lg">{currentSlide.subtitle}</p>
+            <p
+              className="mt-6 text-base text-white/80 sm:text-lg"
+              data-content-path={`heroSlides.${index}.subtitle`}
+            >
+              {currentSlide.subtitle}
+            </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 to={currentSlide.ctaHref}
                 className="inline-flex items-center gap-2 rounded-full bg-brand-lime px-6 py-3 text-sm font-semibold text-brand-deep shadow-lg shadow-brand-deep/20 transition hover:bg-brand-chartreuse"
+                data-content-path={`heroSlides.${index}.ctaLabel`}
               >
                 {currentSlide.ctaLabel}
               </Link>

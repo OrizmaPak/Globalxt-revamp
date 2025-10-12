@@ -1,7 +1,11 @@
 // API Configuration
+import { getCompanyEmail } from './chat';
+
+const ENV_BASE = (import.meta.env.VITE_API_BASE as string | undefined)?.replace(/\/$/, '') || 'https://global-xt-api.vercel.app';
+
 export const API_CONFIG = {
   // Vercel deployment URL (updated with dual email system)
-  BASE_URL: 'https://global-xt-q1k6pi8cf-orevaorior-gmailcoms-projects.vercel.app',
+  BASE_URL: ENV_BASE,
   
   // API endpoints
   ENDPOINTS: {
@@ -10,8 +14,8 @@ export const API_CONFIG = {
     HEALTH: '/'
   },
 
-  // Business recipient for notifications (can be moved to env-backed config if needed)
-  RECIPIENT_EMAIL: 'divinehelpfarmers@gmail.com',
+  // Business recipient for notifications (uses chat config)
+  RECIPIENT_EMAIL: getCompanyEmail(),
   
   // Request timeout (in milliseconds)
   TIMEOUT: 30000
@@ -19,7 +23,8 @@ export const API_CONFIG = {
 
 // Helper function to get full API URL
 export const getApiUrl = (endpoint: string): string => {
-  return `${API_CONFIG.BASE_URL}${endpoint}`;
+  const ep = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  return `${API_CONFIG.BASE_URL}${ep}`;
 };
 
 // Default headers for API requests

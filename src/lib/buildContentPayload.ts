@@ -35,7 +35,17 @@ export const buildContentPayload = (cloudMap?: CloudinaryMap): SiteContent => {
   const productCategories = (local as any).productCategories.map((c: any) => ({
     ...c,
     heroImage: tryMap(c.heroImage, map) || c.heroImage,
-    products: c.products.map((p: any) => ({ ...p, image: tryMap(p.image, map) || p.image })),
+    products: c.products.map((p: any) => {
+      const mappedImage = tryMap(p.image, map) || p.image;
+      const mappedImages = Array.isArray(p.images) && p.images.length
+        ? p.images.map((img: string) => tryMap(img, map) || img)
+        : undefined;
+      return {
+        ...p,
+        image: mappedImage,
+        ...(mappedImages ? { images: mappedImages } : {}),
+      };
+    }),
   }));
   const industrySegments = (local as any).industrySegments;
   const resourceArticles = (local as any).resourceArticles.map((a: any) => ({

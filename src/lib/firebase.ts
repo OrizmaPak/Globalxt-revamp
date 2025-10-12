@@ -1,4 +1,5 @@
 import { getApp, getApps, initializeApp, type FirebaseApp, type FirebaseOptions } from "firebase/app";
+import { getStorage, type FirebaseStorage } from "firebase/storage";
 
 const fallbackConfig: FirebaseOptions = {
   apiKey: "AIzaSyCk2RuLqnxuUb70VztZU4jiPZsMX_-slLc",
@@ -21,6 +22,7 @@ const firebaseConfig: FirebaseOptions = {
 };
 
 let firebaseApp: FirebaseApp | null = null;
+let storage: FirebaseStorage | null = null;
 
 // Debug logging for Firebase configuration
 if (import.meta.env.DEV) {
@@ -43,21 +45,37 @@ if (import.meta.env.DEV) {
   });
 }
 
+// Always initialize the app; do not fail the app if Storage fails
 try {
   firebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
   if (import.meta.env.DEV) {
-    console.log('✅ Firebase initialized successfully!');
-    console.log('Firebase App Name:', firebaseApp.name);
-    console.log('Firebase Project ID:', firebaseApp.options.projectId);
+    console.log('✅ Firebase App initialized');
   }
 } catch (err) {
-  if (import.meta.env.DEV) {
-    console.error('❌ Firebase initialization failed:', err);
-    console.log('Using fallback configuration instead');
-  }
+  console.error('❌ Firebase App initialization failed:', err);
   firebaseApp = null;
 }
 
-export { firebaseApp };
+// Try to initialize Storage separately, but continue without it on failure
+if (firebaseApp) {
+  try {
+    storage = getStorage(firebaseApp);
+    if (import.meta.env.DEV) {
+      console.log('✅ Firebase Storage initialized');
+    }
+  } catch (err) {
+    if (import.meta.env.DEV) {
+      console.warn('⚠️ Firebase Storage initialization failed, continuing without Storage:', err);
+    }
+    storage = null;
+  }
+}
+
+if (import.meta.env.DEV && firebaseApp) {
+  console.log('Firebase App Name:', firebaseApp.name);
+  console.log('Firebase Project ID:', firebaseApp.options.projectId);
+}
+
+export { firebaseApp, storage };
 
 export default firebaseApp;

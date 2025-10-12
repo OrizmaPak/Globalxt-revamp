@@ -43,6 +43,11 @@ export interface Product {
   summary: string;
   description: string;
   image: string;
+  /**
+   * Optional gallery images. If provided, the UI will render these in the product gallery.
+   * If omitted, the single `image` field will be used.
+   */
+  images?: string[];
   origins: string[];
   specifications: string[];
   packaging: string[];

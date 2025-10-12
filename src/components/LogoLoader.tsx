@@ -1,7 +1,10 @@
 import logo from '../assets/logo.png';
-import { companyInfo } from '../data/siteContent';
+import { useContent } from '../context/ContentProvider';
 
 const LogoLoader = () => {
+  const { content } = useContent();
+  const name = content?.companyInfo?.name;
+
   return (
     <div className="fixed inset-0 z-50 grid place-items-center bg-white">
       <div className="flex flex-col items-center">
@@ -12,7 +15,7 @@ const LogoLoader = () => {
           draggable={false}
         />
         <div className="mt-4 text-center select-none">
-          <p className="text-base font-semibold text-brand-deep">{companyInfo.name}</p>
+          <p className="text-base font-semibold text-brand-deep">{name || 'Global XT Limited.'}</p>
         </div>
       </div>
     </div>

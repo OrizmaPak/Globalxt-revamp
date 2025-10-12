@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useEnquiryCart } from '../context/EnquiryCartProvider';
 
 interface AddToEnquiryButtonProps {
