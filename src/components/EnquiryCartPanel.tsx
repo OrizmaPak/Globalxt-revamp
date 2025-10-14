@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useEnquiryCart } from '../context/EnquiryCartProvider';
+import fallbackPlaceholder from '../assets/images/placeholder.jpg';
 import { getApiUrl, getDefaultHeaders, API_CONFIG } from '../config/api';
 import { chatService } from '../services/chatService';
 
@@ -556,7 +557,7 @@ ${contactDetails.phone || ''}
                           className="w-12 h-12 md:w-16 md:h-16 rounded-xl object-cover bg-gray-200 shadow-sm border border-gray-100"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
-                            target.src = '/placeholder-product.jpg';
+                            target.src = fallbackPlaceholder as unknown as string;
                           }}
                         />
                         <div className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-5 h-5 md:w-6 md:h-6 bg-brand-primary text-white rounded-full flex items-center justify-center text-xs font-bold shadow-md">

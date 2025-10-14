@@ -38,11 +38,22 @@ const ResourcesPage = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/95 via-brand-chartreuse/90 to-transparent" />
         <div className="container-gxt relative z-10">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+          <span
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary"
+            data-content-path="pageCopy.resources.hero.badge"
+          >
             Knowledge Hub
           </span>
-          <h1 className="mt-4 text-3xl font-semibold text-brand-deep">Insights, guides, and market intelligence</h1>
-          <p className="mt-4 max-w-3xl text-sm text-slate-600">
+          <h1
+            className="mt-4 text-3xl font-semibold text-brand-deep"
+            data-content-path="pageCopy.resources.hero.title"
+          >
+            Insights, guides, and market intelligence
+          </h1>
+          <p
+            className="mt-4 max-w-3xl text-sm text-slate-600"
+            data-content-path="pageCopy.resources.hero.description"
+          >
             Stay ahead with curated briefings, sourcing guides, and regulatory updates across the agro
             export ecosystem.
           </p>
@@ -55,7 +66,7 @@ const ResourcesPage = () => {
           {/* Sidebar */}
           <aside className="hidden md:block w-56 flex-shrink-0">
             <div className="sticky top-28 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-brand-primary">Categories</h3>
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-brand-primary" data-content-path="pageCopy.resources.categoriesTitle">Categories</h3>
               <ul className="space-y-3">
                 <li>
                   <a href="#" className="block text-brand-deep hover:text-brand-primary font-medium transition">Insights</a>
@@ -71,7 +82,7 @@ const ResourcesPage = () => {
           </aside>
           {/* Blog Cards */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 flex-1">
-            {resourceArticles.map((article) => (
+            {resourceArticles.map((article, articleIndex) => (
               <Link
                 key={article.slug}
                 to={`/resources/${article.slug}`}
@@ -87,12 +98,12 @@ const ResourcesPage = () => {
                     loading="lazy"
                   />
                   <div className="p-6 flex flex-col flex-1">
-                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary" data-content-path={`resourceArticles.${articleIndex}.category`}>
                       {article.category}
                     </p>
-                    <h2 className="mt-4 text-lg font-semibold text-brand-deep">{article.title}</h2>
-                    <p className="mt-3 flex-1 text-sm text-slate-600">{article.summary}</p>
-                    <p className="mt-4 text-xs text-slate-400">Published {article.publishedOn}</p>
+                    <h2 className="mt-4 text-lg font-semibold text-brand-deep" data-content-path={`resourceArticles.${articleIndex}.title`}>{article.title}</h2>
+                    <p className="mt-3 flex-1 text-sm text-slate-600" data-content-path={`resourceArticles.${articleIndex}.summary`}>{article.summary}</p>
+                    <p className="mt-4 text-xs text-slate-400">Published <span data-content-path={`resourceArticles.${articleIndex}.publishedOn`}>{article.publishedOn}</span></p>
                   </div>
                 </article>
               </Link>
@@ -103,7 +114,7 @@ const ResourcesPage = () => {
 
       <section id="faqs" className="bg-slate-50 py-16">
         <div className="container-gxt">
-          <h2 className="text-2xl font-semibold text-brand-deep">Frequently asked questions</h2>
+          <h2 className="text-2xl font-semibold text-brand-deep" data-content-path="pageCopy.resources.faqsTitle">Frequently asked questions</h2>
           <div className="mt-6 space-y-3">
             {faqs.map((faq) => (
               <Disclosure key={faq.question}>

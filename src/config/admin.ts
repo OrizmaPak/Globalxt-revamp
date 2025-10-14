@@ -3,5 +3,6 @@
 const envEmails = (import.meta.env.VITE_ADMIN_EMAILS as string | undefined)?.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean) ?? [];
 
 export const allowedAdminEmails: string[] = envEmails.length ? envEmails : [
+  'info@globalxtltd.com',
   'orevaorior@gmail.com',
 ];

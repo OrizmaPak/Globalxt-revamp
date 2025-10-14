@@ -41,6 +41,12 @@ export interface HomeCopy {
   };
 }
 
+export interface AboutCorporateFact {
+  label: string;
+  value?: string;
+  valuePath?: string;
+}
+
 export interface AboutCopy {
   hero: {
     badge: string;
@@ -52,6 +58,7 @@ export interface AboutCopy {
     description: string[];
   };
   corporateFactsTitle: string;
+  corporateFacts: AboutCorporateFact[];
   visionMission: {
     title: string;
     visionTitle: string;
@@ -258,6 +265,18 @@ export const pageCopy: PageCopy = {
       ],
     },
     corporateFactsTitle: 'Corporate Facts',
+    corporateFacts: [
+      { label: 'Registered Name', valuePath: 'companyInfo.name' },
+      { label: 'Head Offices', valuePath: 'companyInfo.address' },
+      {
+        label: 'Trading Focus',
+        value: 'Agro commodities, training, and export consulting',
+      },
+      {
+        label: 'Operational Footprint',
+        value: 'West Africa supply clusters with global buyer network',
+      },
+    ],
     visionMission: {
       title: 'Vision & Mission',
       visionTitle: 'Vision',

@@ -18,7 +18,11 @@ const ConsultingDetailPage = () => {
   const { slug } = useParams();
   const { content } = useContent();
   const serviceOfferings = content?.serviceOfferings ?? [];
-  const service = useMemo(() => serviceOfferings.find((s) => s.slug === slug), [serviceOfferings, slug]);
+  const serviceIndex = useMemo(
+    () => serviceOfferings.findIndex((s) => s.slug === slug),
+    [serviceOfferings, slug]
+  );
+  const service = serviceIndex >= 0 ? serviceOfferings[serviceIndex] : undefined;
 
   const images = service ? serviceImages[service.slug] ?? [heroQuality] : [heroQuality];
 
@@ -38,11 +42,24 @@ const ConsultingDetailPage = () => {
     <div className="bg-white">
       <section className="relative overflow-hidden py-16">
         <div className="container-gxt">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+          <span
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary"
+            data-content-path="pageCopy.consultingDetail.heroBadge"
+          >
             Consulting
           </span>
-          <h1 className="mt-3 text-3xl font-semibold text-brand-deep">{service.name}</h1>
-          <p className="mt-3 max-w-3xl text-sm text-slate-600">{service.summary}</p>
+          <h1
+            className="mt-3 text-3xl font-semibold text-brand-deep"
+            data-content-path={`serviceOfferings.${serviceIndex}.name`}
+          >
+            {service.name}
+          </h1>
+          <p
+            className="mt-3 max-w-3xl text-sm text-slate-600"
+            data-content-path={`serviceOfferings.${serviceIndex}.summary`}
+          >
+            {service.summary}
+          </p>
         </div>
       </section>
       <Breadcrumb />
@@ -67,17 +84,17 @@ const ConsultingDetailPage = () => {
             documentation support. Where required, we facilitate banking instruments and trade finance
             advisory, integrating with your internal controls to keep risk Low and throughput High.
           </p>
-          <h2 className="pt-2 text-xl font-semibold text-brand-deep">Programme Deliverables</h2>
+          <h2 className="pt-2 text-xl font-semibold text-brand-deep" data-content-path="pageCopy.consultingDetail.deliverablesTitle">Programme Deliverables</h2>
           <ul className="list-disc space-y-2 pl-6">
-            {service.details.map((d) => (
-              <li key={d}>{d}</li>
+            {service.details.map((d, di) => (
+              <li key={d} data-content-path={`serviceOfferings.${serviceIndex}.details.${di}`}>{d}</li>
             ))}
             <li>Export documentation library (NEPC, SONCAP, Phytosanitary, CO, BL/AWB).</li>
             <li>QA templates and sampling plans aligned to destination regulations.</li>
-            <li>Logistics critical‑path with role clarity for all parties.</li>
+            <li>Logistics critical-path with role clarity for all parties.</li>
             <li>Weekly reporting pack with KPIs and risk register.</li>
           </ul>
-          <h2 className="pt-2 text-xl font-semibold text-brand-deep">Why Global XT</h2>
+          <h2 className="pt-2 text-xl font-semibold text-brand-deep" data-content-path="pageCopy.consultingDetail.whyTitle">Why Global XT</h2>
           <p>
             We combine reach across Nigeria and West Africa with disciplined execution. Our teams
             maintain long‑standing supplier relationships, enabling dependable lots at competitive
@@ -85,10 +102,10 @@ const ConsultingDetailPage = () => {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to="/contact" className="rounded-full bg-brand-primary px-5 py-2 text-sm font-semibold text-white">
-              Start a discovery call
+              <span data-content-path="pageCopy.consultingDetail.ctaPrimary">Start a discovery call</span>
             </Link>
             <Link to="/consulting" className="rounded-full border border-brand-primary px-5 py-2 text-sm font-semibold text-brand-primary">
-              View all services
+              <span data-content-path="pageCopy.consultingDetail.ctaSecondary">View all services</span>
             </Link>
           </div>
         </article>

@@ -3,6 +3,7 @@ import { getFirestore, doc, onSnapshot, setDoc, getDoc, type Firestore } from 'f
 import firebaseApp from '../lib/firebase';
 import type { SiteContent } from '../lib/contentTypes';
 import { buildContentPayload } from '../lib/buildContentPayload';
+import { normalizeContentAssets } from '../lib/normalizeContentAssets';
 
 interface ContentContextValue {
   content: SiteContent | null;
@@ -71,7 +72,8 @@ export const ContentProvider = ({ children }: { children: React.ReactNode }) => 
         (snap) => {
           if (snap.exists()) {
             const data = snap.data() as SiteContent;
-            setContent(data);
+            const normalized = normalizeContentAssets(data);
+            setContent(normalized);
             setError(null);
           } else {
             setContent(null);

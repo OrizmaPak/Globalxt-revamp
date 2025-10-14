@@ -11,8 +11,10 @@ const ProductDetailPage = () => {
   const { content } = useContent();
   const productCategories = content?.productCategories ?? [];
   const heroBg = content?.pageImages?.defaultHero ?? image;
-  const category = productCategories.find((item) => item.slug === categorySlug);
-  const product = category?.products.find((item) => item.slug === productSlug);
+  const categoryIndex = productCategories.findIndex((item) => item.slug === categorySlug);
+  const category = categoryIndex >= 0 ? productCategories[categoryIndex] : undefined;
+  const productIndex = category ? category.products.findIndex((item) => item.slug === productSlug) : -1;
+  const product = productIndex >= 0 && category ? category.products[productIndex] : undefined;
   const [layout, setLayout] = useState<'classic' | 'full'>('classic');
 
   if (!category || !product) {
@@ -43,15 +45,28 @@ const ProductDetailPage = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/95 via-brand-chartreuse/90 to-transparent" />
         <div className="container-gxt relative z-10">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+          <span
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary"
+            data-content-path={`productCategories.${categoryIndex}.name`}
+          >
             {category.name}
           </span>
-          <h1 className="mt-4 text-3xl font-semibold text-brand-deep">{product.name}</h1>
-          <p className="mt-4 max-w-3xl text-sm text-slate-600">{product.summary}</p>
+          <h1
+            className="mt-4 text-3xl font-semibold text-brand-deep"
+            data-content-path={`productCategories.${categoryIndex}.products.${productIndex}.name`}
+          >
+            {product.name}
+          </h1>
+          <p
+            className="mt-4 max-w-3xl text-sm text-slate-600"
+            data-content-path={`productCategories.${categoryIndex}.products.${productIndex}.summary`}
+          >
+            {product.summary}
+          </p>
           <div className="mt-6 flex flex-wrap gap-3 text-xs text-slate-600">
-            {product.origins.map((origin) => (
+            {product.origins.map((origin, originIndex) => (
               <span key={origin} className="rounded-full border border-slate-300 px-3 py-1">
-                Origin: {origin}
+                Origin: <span data-content-path={`productCategories.${categoryIndex}.products.${productIndex}.origins.${originIndex}`}>{origin}</span>
               </span>
             ))}
           </div>
@@ -98,22 +113,27 @@ const ProductDetailPage = () => {
         {/* Main Content */}
         <div className="lg:col-start-2">
           <h2 className="text-xl font-semibold text-brand-deep">Product overview</h2>
-          <p className="mt-4 text-sm leading-6 text-slate-600">{product.description}</p>
+          <p
+            className="mt-4 text-sm leading-6 text-slate-600"
+            data-content-path={`productCategories.${categoryIndex}.products.${productIndex}.description`}
+          >
+            {product.description}
+          </p>
 
           <div className="mt-10 grid gap-6 md:grid-cols-2">
             <div className="rounded-3xl border border-slate-100 bg-slate-50 p-6">
               <h3 className="text-sm font-semibold text-brand-deep">Specifications</h3>
               <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                {product.specifications.map((spec) => (
-                  <li key={spec}>{spec}</li>
+                {product.specifications.map((spec, specIndex) => (
+                  <li key={spec} data-content-path={`productCategories.${categoryIndex}.products.${productIndex}.specifications.${specIndex}`}>{spec}</li>
                 ))}
               </ul>
             </div>
             <div className="rounded-3xl border border-slate-100 bg-slate-50 p-6">
               <h3 className="text-sm font-semibold text-brand-deep">Packaging</h3>
               <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                {product.packaging.map((pack) => (
-                  <li key={pack}>{pack}</li>
+                {product.packaging.map((pack, pIndex) => (
+                  <li key={pack} data-content-path={`productCategories.${categoryIndex}.products.${productIndex}.packaging.${pIndex}`}>{pack}</li>
                 ))}
               </ul>
             </div>
@@ -121,8 +141,8 @@ const ProductDetailPage = () => {
               <div className="rounded-3xl border border-slate-100 bg-slate-50 p-6">
                 <h3 className="text-sm font-semibold text-brand-deep">Logistics</h3>
                 <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  {product.logistics.map((item) => (
-                    <li key={item}>{item}</li>
+                  {product.logistics.map((item, lIndex) => (
+                    <li key={item} data-content-path={`productCategories.${categoryIndex}.products.${productIndex}.logistics.${lIndex}`}>{item}</li>
                   ))}
                 </ul>
               </div>
@@ -131,8 +151,8 @@ const ProductDetailPage = () => {
               <div className="rounded-3xl border border-slate-100 bg-slate-50 p-6">
                 <h3 className="text-sm font-semibold text-brand-deep">Applications</h3>
                 <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                  {product.applications.map((item) => (
-                    <li key={item}>{item}</li>
+                  {product.applications.map((item, aIndex) => (
+                    <li key={item} data-content-path={`productCategories.${categoryIndex}.products.${productIndex}.applications.${aIndex}`}>{item}</li>
                   ))}
                 </ul>
               </div>
@@ -208,7 +228,7 @@ const ProductDetailPage = () => {
               View category overview
             </Link>
             <a
-              href={`mailto:${'hello@globalxtlimited.com'}?subject=${encodeURIComponent('Product Inquiry - ' + product.name)}`}
+              href={`mailto:${'info@globalxtltd.com'}?subject=${encodeURIComponent('Product Inquiry - ' + product.name)}`}
               className="block rounded-full border border-slate-200 px-5 py-3 text-center text-sm font-semibold text-slate-600 hover:border-brand-primary hover:text-brand-primary"
             >
               Email product team

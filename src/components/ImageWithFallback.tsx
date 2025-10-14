@@ -30,7 +30,7 @@ const ImageWithFallback = ({
           setCurrentSrc(fallbackSrc);
         }
       }}
-      className={clsx('h-full w-full object-cover', className)}
+      className={clsx('h-full w-full object-cover11', className)}
     />
   );
 };

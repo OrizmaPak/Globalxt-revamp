@@ -6,7 +6,8 @@ const BlogDetailPage = () => {
   const { slug } = useParams();
   const { content } = useContent();
   const resourceArticles = content?.resourceArticles ?? [];
-  const article = resourceArticles.find((a) => a.slug === slug);
+  const articleIndex = resourceArticles.findIndex((a) => a.slug === slug);
+  const article = articleIndex >= 0 ? resourceArticles[articleIndex] : undefined;
 
   if (!article) {
     return (
@@ -35,27 +36,28 @@ const BlogDetailPage = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/95 via-brand-chartreuse/90 to-transparent" />
         <div className="container-gxt relative z-10">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary" data-content-path={`resourceArticles.${articleIndex}.category`}>
             {article.category}
           </span>
-          <h1 className="mt-4 text-3xl font-semibold text-brand-deep">{article.title}</h1>
-          <p className="mt-4 max-w-3xl text-sm text-slate-600">{article.summary}</p>
+          <h1 className="mt-4 text-3xl font-semibold text-brand-deep" data-content-path={`resourceArticles.${articleIndex}.title`}>{article.title}</h1>
+          <p className="mt-4 max-w-3xl text-sm text-slate-600" data-content-path={`resourceArticles.${articleIndex}.summary`}>{article.summary}</p>
           
           {/* Article Meta */}
           <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-slate-500">
-            <span>By {article.author}</span>
+            <span>By <span data-content-path={`resourceArticles.${articleIndex}.author`}>{article.author}</span></span>
             <span>•</span>
-            <span>{article.readTime}</span>
+            <span data-content-path={`resourceArticles.${articleIndex}.readTime`}>{article.readTime}</span>
             <span>•</span>
-            <span>Published {article.publishedOn}</span>
+            <span>Published <span data-content-path={`resourceArticles.${articleIndex}.publishedOn`}>{article.publishedOn}</span></span>
           </div>
           
           {/* Tags */}
           <div className="mt-4 flex flex-wrap gap-2">
-            {article.tags.map((tag) => (
+            {article.tags.map((tag, tagIndex) => (
               <span
                 key={tag}
                 className="rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-medium text-brand-primary"
+                data-content-path={`resourceArticles.${articleIndex}.tags.${tagIndex}`}
               >
                 {tag}
               </span>
@@ -102,23 +104,23 @@ const BlogDetailPage = () => {
                 <div className="space-y-4 text-sm">
                   <div>
                     <span className="font-medium text-slate-600">Author:</span>
-                    <p className="mt-1 text-brand-deep">{article.author}</p>
+                    <p className="mt-1 text-brand-deep" data-content-path={`resourceArticles.${articleIndex}.author`}>{article.author}</p>
                   </div>
                   <div>
                     <span className="font-medium text-slate-600">Category:</span>
                     <div className="mt-1">
-                      <span className="px-3 py-1 bg-brand-primary/10 text-brand-primary rounded-full text-xs font-medium">
+                      <span className="px-3 py-1 bg-brand-primary/10 text-brand-primary rounded-full text-xs font-medium" data-content-path={`resourceArticles.${articleIndex}.category`}>
                         {article.category}
                       </span>
                     </div>
                   </div>
                   <div>
                     <span className="font-medium text-slate-600">Read Time:</span>
-                    <p className="mt-1 text-brand-deep">{article.readTime}</p>
+                    <p className="mt-1 text-brand-deep" data-content-path={`resourceArticles.${articleIndex}.readTime`}>{article.readTime}</p>
                   </div>
                   <div>
                     <span className="font-medium text-slate-600">Published:</span>
-                    <p className="mt-1 text-brand-deep">{article.publishedOn}</p>
+                    <p className="mt-1 text-brand-deep" data-content-path={`resourceArticles.${articleIndex}.publishedOn`}>{article.publishedOn}</p>
                   </div>
                 </div>
               </div>
@@ -127,10 +129,11 @@ const BlogDetailPage = () => {
               <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
                 <h3 className="text-lg font-semibold text-brand-deep mb-4">Tags</h3>
                 <div className="flex flex-wrap gap-2">
-                  {article.tags.map((tag) => (
+                  {article.tags.map((tag, tagIndex) => (
                     <span
                       key={tag}
                       className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700 hover:bg-brand-primary/10 hover:text-brand-primary transition-colors cursor-pointer"
+                      data-content-path={`resourceArticles.${articleIndex}.tags.${tagIndex}`}
                     >
                       #{tag}
                     </span>
@@ -173,7 +176,7 @@ const BlogDetailPage = () => {
             {resourceArticles
               .filter((a) => a.slug !== article.slug)
               .slice(0, 3)
-              .map((relatedArticle) => (
+              .map((relatedArticle, rIndex) => (
                 <Link
                   key={relatedArticle.slug}
                   to={`/resources/${relatedArticle.slug}`}
@@ -187,14 +190,14 @@ const BlogDetailPage = () => {
                       loading="lazy"
                     />
                     <div className="p-6 flex flex-col flex-1">
-                      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+                      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary" data-content-path={`resourceArticles.${rIndex}.category`}>
                         {relatedArticle.category}
                       </p>
-                      <h3 className="mt-4 text-lg font-semibold text-brand-deep group-hover:text-brand-primary">
+                      <h3 className="mt-4 text-lg font-semibold text-brand-deep group-hover:text-brand-primary" data-content-path={`resourceArticles.${rIndex}.title`}>
                         {relatedArticle.title}
                       </h3>
-                      <p className="mt-3 flex-1 text-sm text-slate-600">{relatedArticle.summary}</p>
-                      <p className="mt-4 text-xs text-slate-400">Published {relatedArticle.publishedOn}</p>
+                      <p className="mt-3 flex-1 text-sm text-slate-600" data-content-path={`resourceArticles.${rIndex}.summary`}>{relatedArticle.summary}</p>
+                      <p className="mt-4 text-xs text-slate-400">Published <span data-content-path={`resourceArticles.${rIndex}.publishedOn`}>{relatedArticle.publishedOn}</span></p>
                     </div>
                   </article>
                 </Link>

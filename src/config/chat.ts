@@ -6,7 +6,7 @@ export const CHAT_CONFIG = {
   ADMIN_EMAILS: allowedAdminEmails, // Uses the same admin emails as the main admin system
   
   // Company Settings (for customer emails and chat)
-  COMPANY_EMAIL: 'orevaorior@gmail.com',
+  COMPANY_EMAIL: 'info@globalxtltd.com',
   
   // Chat Settings
   PRESENCE_HEARTBEAT_INTERVAL: 20000, // 20 seconds

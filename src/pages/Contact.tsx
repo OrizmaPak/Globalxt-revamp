@@ -27,11 +27,22 @@ const ContactPage = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/95 via-brand-chartreuse/90 to-transparent" />
         <div className="container-gxt relative z-10">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+          <span
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary"
+            data-content-path="pageCopy.contact.hero.badge"
+          >
             Contact
           </span>
-          <h1 className="mt-4 text-3xl font-semibold text-brand-deep">Let's build your export program</h1>
-          <p className="mt-4 max-w-3xl text-sm text-slate-600">
+          <h1
+            className="mt-4 text-3xl font-semibold text-brand-deep"
+            data-content-path="pageCopy.contact.hero.title"
+          >
+            Let's build your export program
+          </h1>
+          <p
+            className="mt-4 max-w-3xl text-sm text-slate-600"
+            data-content-path="pageCopy.contact.hero.description"
+          >
             Reach out via phone, WhatsApp, or the contact form. A member of our commercial team will
             respond within one business day.
           </p>
@@ -41,9 +52,9 @@ const ContactPage = () => {
 
       <section className="container-gxt grid gap-8 py-16 lg:grid-cols-[1.1fr,0.9fr] lg:items-start">
         <form onSubmit={handleSubmit} className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-brand-deep">Send us a message</h2>
-          <p className="mt-2 text-xs text-slate-500">
-            CAPTCHA integration placeholder — production build will connect to reCAPTCHA/Turnstile.
+          <h2 className="text-xl font-semibold text-brand-deep" data-content-path="pageCopy.contact.form.title">Send us a message</h2>
+          <p className="mt-2 text-xs text-slate-500" data-content-path="pageCopy.contact.form.acknowledgement">
+            CAPTCHA integration placeholder - production build will connect to reCAPTCHA/Turnstile.
           </p>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             <div className="flex flex-col gap-2">
@@ -106,10 +117,10 @@ const ContactPage = () => {
             type="submit"
             className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-brand-primary px-6 py-3 text-sm font-semibold text-white hover:bg-brand-lime"
           >
-            Submit enquiry
+            <span data-content-path="pageCopy.contact.form.submitLabel">Submit enquiry</span>
           </button>
           {submitted && (
-            <p className="mt-4 rounded-2xl bg-brand-lime/10 px-4 py-3 text-sm text-brand-primary">
+            <p className="mt-4 rounded-2xl bg-brand-lime/10 px-4 py-3 text-sm text-brand-primary" data-content-path="pageCopy.contact.form.successMessage">
               Thank you. Our team will reach out shortly. This is a placeholder acknowledgement until the
               live backend endpoint is connected.
             </p>
@@ -117,12 +128,12 @@ const ContactPage = () => {
         </form>
         <aside className="space-y-6">
           <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-brand-deep">Direct contact</h2>
+            <h2 className="text-lg font-semibold text-brand-deep" data-content-path="pageCopy.contact.directContactTitle">Direct contact</h2>
             <ul className="mt-4 space-y-2 text-sm text-slate-600">
-              {contactChannels.map((channel) => (
+              {contactChannels.map((channel, i) => (
                 <li key={channel.label}>
                   <a href={channel.href} className="font-semibold text-brand-primary hover:text-brand-lime">
-                    {channel.label}: {channel.value}
+                    <span data-content-path={`contactChannels.${i}.label`}>{channel.label}</span>: <span data-content-path={`contactChannels.${i}.value`}>{channel.value}</span>
                   </a>
                 </li>
               ))}
@@ -133,7 +144,7 @@ const ContactPage = () => {
           </div>
           <div className="overflow-hidden rounded-3xl border border-slate-100 bg-white p-4 shadow-sm">
             <iframe
-              title="Global XT Limited map"
+              title={"Global XT Limited map"}
               src={`https://www.google.com/maps?q=${encodeURIComponent(companyInfo.address)}&output=embed`}
               className="h-64 w-full rounded-2xl"
               loading="lazy"

@@ -4,12 +4,12 @@
 
 ### **Admin Email vs Company Email - Now Properly Separated**
 
-**ADMIN EMAIL**: `orevaorior@gmail.com` (from existing admin system)
+**ADMIN EMAIL**: `info@globalxtltd.com` (from existing admin system)
 - ✅ **Purpose**: Login to admin chat dashboard 
 - ✅ **Used for**: Admin authentication and chat access
 - ✅ **Location**: `src/config/admin.ts`
 
-**COMPANY EMAIL**: `orevaorior@gmail.com` 
+**COMPANY EMAIL**: `info@globalxtltd.com` 
 - ✅ **Purpose**: Customer enquiries and chat notifications
 - ✅ **Used for**: Email templates, customer communications
 - ✅ **Location**: `src/config/chat.ts`
@@ -41,7 +41,7 @@
 **When signed in but NOT ADMIN:**
 - Shows current signed-in email in gray box
 - Clear message: "Admin Access Required"
-- Shows authorized admin email: `orevaorior@gmail.com`
+- Shows authorized admin email: `info@globalxtltd.com`
 - **Two action buttons:**
   - 🔄 "Sign in with different account" (Google sign-in)
   - 🚪 "Sign out current account"
@@ -51,6 +51,7 @@
 ### **Admin Configuration** (`src/config/admin.ts`)
 ```typescript
 export const allowedAdminEmails: string[] = [
+  'info@globalxtltd.com',
   'orevaorior@gmail.com',
 ];
 ```
@@ -62,7 +63,7 @@ export const CHAT_CONFIG = {
   ADMIN_EMAILS: allowedAdminEmails, // From admin.ts
   
   // Company Settings (for customer emails and chat)
-  COMPANY_EMAIL: 'orevaorior@gmail.com',
+  COMPANY_EMAIL: 'info@globalxtltd.com',
   
   // ... other settings
 };
@@ -81,7 +82,7 @@ export const CHAT_CONFIG = {
 1. Admin goes to `/admin/chat`
 2. **If not signed in:** Sees admin sign-in page
 3. **If signed in but not admin:** Sees access denied with current email + admin email shown + sign-in buttons  
-4. **If correct admin account (`orevaorior@gmail.com`):** Access granted to admin dashboard
+4. **If correct admin account (`info@globalxtltd.com`):** Access granted to admin dashboard
 
 ## 📱 **User Experience Improvements**
 

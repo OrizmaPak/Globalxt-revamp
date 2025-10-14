@@ -18,7 +18,8 @@ const IndustryDetailPage = () => {
   const { slug } = useParams();
   const { content } = useContent();
   const industrySegments = content?.industrySegments ?? [];
-  const segment = useMemo(() => industrySegments.find((i) => i.slug === slug), [industrySegments, slug]);
+  const segmentIndex = useMemo(() => industrySegments.findIndex((i) => i.slug === slug), [industrySegments, slug]);
+  const segment = segmentIndex >= 0 ? industrySegments[segmentIndex] : undefined;
   const images = segment ? industryImages[segment.slug] ?? [heroLogistics] : [heroLogistics];
 
   if (!segment) {
@@ -37,11 +38,11 @@ const IndustryDetailPage = () => {
     <div className="bg-white">
       <section className="relative overflow-hidden py-16">
         <div className="container-gxt">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary" data-content-path="pageCopy.industryDetail.heroBadge">
             Industries
           </span>
-          <h1 className="mt-3 text-3xl font-semibold text-brand-deep">{segment.name}</h1>
-          <p className="mt-3 max-w-3xl text-sm text-slate-600">{segment.summary}</p>
+          <h1 className="mt-3 text-3xl font-semibold text-brand-deep" data-content-path={`industrySegments.${segmentIndex}.name`}>{segment.name}</h1>
+          <p className="mt-3 max-w-3xl text-sm text-slate-600" data-content-path={`industrySegments.${segmentIndex}.summary`}>{segment.summary}</p>
         </div>
       </section>
       <Breadcrumb />
@@ -60,10 +61,10 @@ const IndustryDetailPage = () => {
             multi-market perspective, we also advise on destination-specific regulatory changes and
             preferred inspection regimes.
           </p>
-          <h2 className="pt-2 text-xl font-semibold text-brand-deep">Where We Add Value</h2>
+          <h2 className="pt-2 text-xl font-semibold text-brand-deep" data-content-path="pageCopy.industryDetail.valueTitle">Where We Add Value</h2>
           <ul className="list-disc space-y-2 pl-6">
-            {segment.opportunities.map((o) => (
-              <li key={o}>{o}</li>
+            {segment.opportunities.map((o, oi) => (
+              <li key={o} data-content-path={`industrySegments.${segmentIndex}.opportunities.${oi}`}>{o}</li>
             ))}
             <li>Export documentation packs tailored per shipment and destination.</li>
             <li>Quality frameworks to maintain moisture, FM, and defect thresholds.</li>
@@ -71,10 +72,10 @@ const IndustryDetailPage = () => {
           </ul>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to="/contact" className="rounded-full bg-brand-primary px-5 py-2 text-sm font-semibold text-white">
-              Discuss your requirements
+              <span data-content-path="pageCopy.industryDetail.ctaPrimary">Discuss your requirements</span>
             </Link>
             <Link to="/industries" className="rounded-full border border-brand-primary px-5 py-2 text-sm font-semibold text-brand-primary">
-              View all industries
+              <span data-content-path="pageCopy.industryDetail.ctaSecondary">View all industries</span>
             </Link>
           </div>
         </article>

@@ -15,9 +15,6 @@ export default defineConfig({
       host: 'localhost'
     }
   },
-  define: {
-    global: 'globalThis',
-  },
   optimizeDeps: {
     include: [
       'react',

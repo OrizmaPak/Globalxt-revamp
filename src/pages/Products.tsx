@@ -19,11 +19,22 @@ const ProductsPage = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/95 via-brand-chartreuse/90 to-transparent" />
         <div className="container-gxt relative z-10">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+          <span
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary"
+            data-content-path="pageCopy.products.hero.badge"
+          >
             Our Products
           </span>
-          <h1 className="mt-4 text-3xl font-semibold text-brand-deep">Curated agro commodities portfolio</h1>
-          <p className="mt-4 max-w-3xl text-sm text-slate-600">
+          <h1
+            className="mt-4 text-3xl font-semibold text-brand-deep"
+            data-content-path="pageCopy.products.hero.title"
+          >
+            Curated agro commodities portfolio
+          </h1>
+          <p
+            className="mt-4 max-w-3xl text-sm text-slate-600"
+            data-content-path="pageCopy.products.hero.description"
+          >
             Each category is structured to be data-driven. Once connected to our API, your storefront or
             ERP can instantly consume product metadata, specifications, logistics notes, and imagery.
           </p>
@@ -33,17 +44,31 @@ const ProductsPage = () => {
 
       <section className="container-gxt py-16">
         <div className="grid gap-8">
-          {productCategories.map((category) => (
+          {productCategories.map((category, categoryIndex) => (
             <article
               key={category.slug}
               className="grid gap-8 rounded-3xl border border-slate-100 bg-white p-6 shadow-sm lg:grid-cols-[1.2fr,0.8fr] lg:items-center"
             >
               <div>
-                <h2 className="text-2xl font-semibold text-brand-deep">{category.name}</h2>
-                <p className="mt-2 text-sm text-slate-600">{category.summary}</p>
+                <h2
+                  className="text-2xl font-semibold text-brand-deep"
+                  data-content-path={`productCategories.${categoryIndex}.name`}
+                >
+                  {category.name}
+                </h2>
+                <p
+                  className="mt-2 text-sm text-slate-600"
+                  data-content-path={`productCategories.${categoryIndex}.summary`}
+                >
+                  {category.summary}
+                </p>
                 <ul className="mt-4 grid gap-2 text-sm text-slate-600 md:grid-cols-2">
-                  {category.highlights.map((highlight) => (
-                    <li key={highlight} className="rounded-2xl bg-slate-50 px-3 py-2">
+                  {category.highlights.map((highlight, hi) => (
+                    <li
+                      key={highlight}
+                      className="rounded-2xl bg-slate-50 px-3 py-2"
+                      data-content-path={`productCategories.${categoryIndex}.highlights.${hi}`}
+                    >
                       {highlight}
                     </li>
                   ))}
@@ -69,13 +94,13 @@ const ProductsPage = () => {
                     to={`/products/${category.slug}`}
                     className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-5 py-2 text-sm font-semibold text-white hover:bg-brand-lime"
                   >
-                    View category overview
+                    <span data-content-path="pageCopy.products.hero.primaryCta">View category overview</span>
                   </Link>
                   <Link
                     to={`/products/${category.slug}/${category.products[0]?.slug ?? ''}`}
                     className="inline-flex items-center gap-2 rounded-full border border-brand-primary px-5 py-2 text-sm font-semibold text-brand-primary hover:bg-brand-lime/10"
                   >
-                    Open sample product
+                    <span data-content-path="pageCopy.products.hero.secondaryCta">Open sample product</span>
                   </Link>
                 </div>
               </div>

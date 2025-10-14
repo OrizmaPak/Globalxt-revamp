@@ -10,7 +10,8 @@ const ProductCategoryPage = () => {
   const { content } = useContent();
   const productCategories = content?.productCategories ?? [];
   const heroBg = content?.pageImages?.defaultHero ?? image;
-  const category = productCategories.find((item) => item.slug === categorySlug);
+  const categoryIndex = productCategories.findIndex((item) => item.slug === categorySlug);
+  const category = categoryIndex >= 0 ? productCategories[categoryIndex] : undefined;
 
   if (!category) {
     return (
@@ -40,19 +41,36 @@ const ProductCategoryPage = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-lime/95 via-brand-chartreuse/90 to-transparent" />
         <div className="container-gxt relative z-10">
-          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary">
+          <span
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary"
+            data-content-path={`productCategories.${categoryIndex}.name`}
+          >
             {category.name}
           </span>
-          <h1 className="mt-4 text-3xl font-semibold text-brand-deep">{category.tagline}</h1>
-          <p className="mt-4 max-w-3xl text-sm text-slate-600">{category.summary}</p>
+          <h1
+            className="mt-4 text-3xl font-semibold text-brand-deep"
+            data-content-path={`productCategories.${categoryIndex}.tagline`}
+          >
+            {category.tagline}
+          </h1>
+          <p
+            className="mt-4 max-w-3xl text-sm text-slate-600"
+            data-content-path={`productCategories.${categoryIndex}.summary`}
+          >
+            {category.summary}
+          </p>
         </div>
       </section>
       <Breadcrumb />
 
       <section className="container-gxt py-12">
         <div className="grid gap-6 md:grid-cols-3">
-          {category.highlights.map((highlight) => (
-            <div key={highlight} className="rounded-3xl border border-slate-100 bg-slate-50 p-5 text-sm text-slate-600">
+          {category.highlights.map((highlight, hi) => (
+            <div
+              key={highlight}
+              className="rounded-3xl border border-slate-100 bg-slate-50 p-5 text-sm text-slate-600"
+              data-content-path={`productCategories.${categoryIndex}.highlights.${hi}`}
+            >
               {highlight}
             </div>
           ))}
@@ -68,7 +86,7 @@ const ProductCategoryPage = () => {
           </p>
         </div>
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {category.products.map((product) => (
+          {category.products.map((product, productIndex) => (
             <div
               key={product.slug}
               className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:border-brand-lime hover:shadow-lg"
@@ -82,11 +100,19 @@ const ProductCategoryPage = () => {
               </Link>
               <div className="flex flex-1 flex-col p-6">
                 <Link to={`/products/${category.slug}/${product.slug}`}>
-                  <h3 className="text-lg font-semibold text-brand-deep group-hover:text-brand-primary">
+                  <h3
+                    className="text-lg font-semibold text-brand-deep group-hover:text-brand-primary"
+                    data-content-path={`productCategories.${categoryIndex}.products.${productIndex}.name`}
+                  >
                     {product.name}
                   </h3>
                 </Link>
-                <p className="mt-2 flex-1 text-sm text-slate-600">{product.summary}</p>
+                <p
+                  className="mt-2 flex-1 text-sm text-slate-600"
+                  data-content-path={`productCategories.${categoryIndex}.products.${productIndex}.summary`}
+                >
+                  {product.summary}
+                </p>
                 
                 <div className="mt-4 space-y-3">
                   <AddToEnquiryButton

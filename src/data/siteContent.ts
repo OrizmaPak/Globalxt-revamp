@@ -55,7 +55,7 @@ export const companyInfo = {
   tagline: "Delivering Africa's Finest Agro Products to the World",
   phone: '+2348032310051',
   whatsapp: '+2348032310051',
-  email: 'hello@globalxtlimited.com',
+  email: 'info@globalxtltd.com',
   address: 'Lagos & Kano, Nigeria',
   hours: 'Mon - Sat: 8:00am - 6:00pm (WAT)',
   rcNumber: 'RC1745844',
@@ -729,7 +729,7 @@ export const resourceArticles: ResourceArticle[] = [
 
 export const contactChannels: ContactChannel[] = [
   { label: 'Phone', value: '+234 803 231 0051', href: 'tel:+2348032310051' },
-  { label: 'Email', value: 'hello@globalxtlimited.com', href: 'mailto:hello@globalxtlimited.com' },
+  { label: 'Email', value: 'info@globalxtltd.com', href: 'mailto:info@globalxtltd.com' },
   { label: 'WhatsApp', value: '+234 803 231 0051', href: 'https://wa.me/2348032310051' },
 ];
 
