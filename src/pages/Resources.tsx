@@ -4,6 +4,8 @@ import { useContent } from '../context/ContentProvider';
 import image from '../assets/image3.jpg';
 import { Link } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 
 const faqs = [
   {
@@ -29,6 +31,12 @@ const ResourcesPage = () => {
   const heroBg = content?.pageImages?.defaultHero ?? image;
   return (
     <div className="bg-white">
+      <SEO
+        title="Resources | Global XT Limited"
+        description="Insights, guides, and market intelligence for agro commodity exports."
+        pathname={'/resources'}
+        canonical={canonicalForPath('/resources')}
+      />
       <section className="relative overflow-hidden py-16">
         <div
           className="absolute inset-0 bg-cover bg-center"

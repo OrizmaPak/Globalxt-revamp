@@ -2,6 +2,8 @@ import { useContent } from '../context/ContentProvider';
 import { BuildingOffice2Icon } from '@heroicons/react/24/outline';
 import image from '../assets/image3.jpg';
 import Breadcrumb from '../components/Breadcrumb';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 import heroLogistics from '../assets/images/hero_logistics.jpg';
 import catSeedsGrains from '../assets/images/cat_seeds_grains.jpg';
 import catSpicesHerbs from '../assets/images/cat_spices_herbs.jpg';
@@ -21,6 +23,12 @@ const IndustriesPage = () => {
   const heroBg = content?.pageImages?.defaultHero ?? image;
   return (
     <div className="bg-white">
+      <SEO
+        title="Industries | Global XT Limited"
+        description={industriesCopy?.hero.description ?? 'We serve FMCGs, processors, export markets, and brokers.'}
+        pathname={'/industries'}
+        canonical={canonicalForPath('/industries')}
+      />
       <section className="relative overflow-hidden py-16" data-section="hero">
         <div
           className="absolute inset-0 bg-cover bg-center"

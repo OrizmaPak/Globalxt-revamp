@@ -5,6 +5,8 @@ import Breadcrumb from '../components/Breadcrumb';
 import AddToEnquiryButton from '../components/AddToEnquiryButton';
 import { useEffect, useState } from 'react';
 import type { Product } from '../types/content';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 
 const ProductDetailPage = () => {
   const { categorySlug, productSlug } = useParams();
@@ -36,6 +38,27 @@ const ProductDetailPage = () => {
 
   return (
     <div className="bg-white">
+      <SEO
+        title={`${product.name} | ${category.name} | Global XT Limited`}
+        description={product.summary}
+        image={product.image}
+        pathname={`/products/${category.slug}/${product.slug}`}
+        canonical={canonicalForPath(`/products/${category.slug}/${product.slug}`)}
+        type="product"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: product.name,
+          description: product.summary,
+          image: product.images && product.images.length ? product.images : [product.image],
+          brand: {
+            '@type': 'Organization',
+            name: (content as any)?.companyInfo?.name || 'Global XT Limited',
+          },
+          category: category.name,
+          url: canonicalForPath(`/products/${category.slug}/${product.slug}`),
+        }}
+      />
       <section className="relative overflow-hidden py-16">
         <div
           className="absolute inset-0 bg-cover bg-center"

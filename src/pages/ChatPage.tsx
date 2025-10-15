@@ -3,6 +3,8 @@ import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import CustomerChatInterface from '../components/chat/CustomerChatInterface';
 import { useAuth } from '../context/AuthProvider';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 
 // Simple protected route component
 const ProtectedChat: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -45,6 +47,7 @@ const ChatPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEO title="Chat Room | Global XT Limited" description="Private chat room." noindex canonical={canonicalForPath(`/chat/${roomId}`)} />
       {/* Clean Chat Interface - No Navigation */}
       <ProtectedChat>
         <CustomerChatInterface roomId={roomId} className="h-screen" />
@@ -71,6 +74,7 @@ export const ChatSignInPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <SEO title="Chat Sign In | Global XT Limited" description="Access your chat room." noindex canonical={canonicalForPath(`/chat/signin/${roomId ?? ''}`)} />
       <div className="max-w-md w-full text-center">
         <div className="w-16 h-16 bg-gradient-to-r from-brand-primary to-brand-lime rounded-full flex items-center justify-center mx-auto mb-4">
           <span className="text-white font-bold text-xl">GXT</span>

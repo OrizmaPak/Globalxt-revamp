@@ -35,142 +35,196 @@ const HomePage = () => {
   const bottomCta = homeCopy?.bottomCta;
   return (
     <div className="bg-white">
+      <SEO
+        title={`Global XT Limited | ${exportExcellence?.title ?? 'Agro Commodities & Export Consulting'}`}
+        description={exportExcellence?.description ?? 'Premium African agro commodities, export consulting, training, and brokerage services.'}
+        image={(content?.heroSlides?.[0]?.image as any) ?? undefined}
+        pathname={'/'}
+        canonical={canonicalForPath('/')}
+        type="website"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: content?.companyInfo?.name ?? 'Global XT Limited',
+          url: canonicalForPath('/'),
+          logo: (content?.heroSlides?.[0]?.image as any) ?? undefined,
+          sameAs: (content?.companyInfo?.socialLinks || []).map(s => s.href).filter(Boolean),
+        }}
+      />
       <HeroCarousel />
 
-      <section className="relative -mt-4 py-20 sm:-mt-6">
-        <div className="px-0 sm:px-6">
-          <div className="mx-auto max-w-6xl">
-            <div className="relative overflow-hidden rounded-none border border-brand-primary/20 bg-white/95 px-6 py-12 shadow-[0_45px_140px_-70px_rgba(12,54,24,0.5)] backdrop-blur sm:rounded-[2.75rem] sm:px-12">
-              <div className="pointer-events-none absolute -left-32 top-[-140px] h-64 w-64 rounded-full bg-brand-chartreuse/18 blur-3xl" />
-              <div className="pointer-events-none absolute bottom-[-160px] right-[-120px] h-72 w-72 rounded-full bg-brand-primary/12 blur-3xl" />
-              <div className="relative grid gap-10 lg:grid-cols-[1.4fr,0.6fr]">
-                <div className="space-y-7">
+      <section
+  /* ✨ stop sideways scroll on phones */
+  className="relative -mt-4 py-20 sm:-mt-6 overflow-x-hidden"
+>
+  <div className="px-0 sm:px-6">
+    <div className="mx-auto max-w-6xl">
+      <div className="relative overflow-hidden rounded-none border border-brand-primary/20 bg-white/95 px-6 py-12 shadow-[0_45px_140px_-70px_rgba(12,54,24,0.5)] backdrop-blur sm:rounded-[2.75rem] sm:px-12">
+        {/* background blur blobs */}
+        <div className="pointer-events-none absolute -left-32 top-[-140px] h-64 w-64 rounded-full bg-brand-chartreuse/18 blur-3xl" />
+        <div className="pointer-events-none absolute bottom-[-160px] right-[-120px] h-72 w-72 rounded-full bg-brand-primary/12 blur-3xl" />
+
+        <div className="relative grid gap-10 lg:grid-cols-[1.4fr,0.6fr]">
+          {/* ────────────────────────────────
+              LEFT COLUMN – copy & bullets
+          ──────────────────────────────── */}
+          <div className="space-y-7">
+            <span
+              className="text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-brand-primary"
+              data-content-path="pageCopy.home.exportExcellence.badge"
+            >
+              {exportExcellence?.badge ?? ''}
+            </span>
+
+            <h2
+              /* ✨ wrap long words on mobile, keep original on ≥ sm */
+              className="text-3xl font-semibold text-brand-deep break-words sm:text-4xl sm:break-normal"
+              data-content-path="pageCopy.home.exportExcellence.title"
+            >
+              {exportExcellence?.title ?? ''}
+            </h2>
+
+            <p
+              /* ✨ ensures sentences wrap instead of overflowing */
+              className="max-w-2xl text-sm leading-6 text-slate-600 break-words"
+              data-content-path="pageCopy.home.exportExcellence.description"
+            >
+              {exportExcellence?.description ?? ''}
+            </p>
+
+            {/* bullet list */}
+            <div className="grid gap-4 sm:grid-cols-2">
+              {(exportExcellence?.bullets ?? []).map((line, bulletIndex) => (
+                <div
+                  key={`export-bullet-${bulletIndex}`}
+                  className="flex items-start gap-3 rounded-2xl border border-brand-primary/30 bg-white/70 p-4 text-sm text-slate-600 shadow-sm transition hover:border-brand-primary hover:bg-brand-lime/10"
+                >
+                  <CheckCircleIcon className="mt-1 h-5 w-5 flex-shrink-0 text-brand-primary" />
                   <span
-                    className="text-[0.65rem] font-semibold uppercase tracking-[0.4em] text-brand-primary"
-                    data-content-path="pageCopy.home.exportExcellence.badge"
+                    /* ✨ allow each bullet to wrap naturally */
+                    className="break-words"
+                    data-content-path={`pageCopy.home.exportExcellence.bullets.${bulletIndex}`}
                   >
-                    {exportExcellence?.badge ?? ''}
+                    {line}
                   </span>
-                  <h2
-                    className="text-3xl font-semibold text-brand-deep sm:text-4xl"
-                    data-content-path="pageCopy.home.exportExcellence.title"
-                  >
-                    {exportExcellence?.title ?? ''}
-                  </h2>
-                  <p
-                    className="max-w-2xl text-sm leading-6 text-slate-600"
-                    data-content-path="pageCopy.home.exportExcellence.description"
-                  >
-                    {exportExcellence?.description ?? ''}
-                  </p>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    {(exportExcellence?.bullets ?? []).map((line, bulletIndex) => (
-                      <div
-                        key={`export-bullet-${bulletIndex}`}
-                        className="flex items-start gap-3 rounded-2xl border border-brand-primary/30 bg-white/70 p-4 text-sm text-slate-600 shadow-sm transition hover:border-brand-primary hover:bg-brand-lime/10"
-                      >
-                        <CheckCircleIcon className="mt-1 h-5 w-5 flex-shrink-0 text-brand-primary" />
-                        <span data-content-path={`pageCopy.home.exportExcellence.bullets.${bulletIndex}`}>
-                          {line}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex flex-wrap gap-4 pt-2">
-                    <Link
-                      to="/contact"
-                      className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-6 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-brand-lime"
-                      data-content-path="pageCopy.home.exportExcellence.primaryCta"
-                    >
-                      {exportExcellence?.primaryCta ?? 'Request a discovery call'}
-                      <ArrowRightIcon className="h-4 w-4" />
-                    </Link>
-                    <a
-                      href={`https://wa.me/${companyInfo.whatsapp.replace('+', '')}`}
-                      className="inline-flex items-center gap-2 rounded-full border border-brand-primary px-6 py-3 text-sm font-semibold text-brand-primary transition hover:bg-brand-lime/10"
-                      data-content-path="pageCopy.home.exportExcellence.secondaryCta"
-                    >
-                      {exportExcellence?.secondaryCta ?? 'Chat on WhatsApp'}
-                    </a>
-                  </div>
                 </div>
-                <div className="flex flex-col gap-5 rounded-[2rem] border border-brand-primary/25 bg-white/80 p-6 shadow-inner">
-                  <div className="flex items-center justify-between">
-                    <span
-                      className="text-[0.6rem] font-semibold uppercase tracking-[0.42em] text-brand-primary"
-                      data-content-path="pageCopy.home.coreCategories.badge"
-                    >
-                      {coreCategories?.badge ?? 'Core categories'}
-                    </span>
-                    <div
-                      className="text-[0.6rem] uppercase tracking-[0.34em] text-brand-primary/60"
-                      data-content-path="pageCopy.home.coreCategories.apiLabel"
-                    >
-                      {coreCategories?.apiLabel ?? 'API ready'}
+              ))}
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-wrap gap-4 pt-2">
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 rounded-full bg-brand-primary px-6 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-brand-lime"
+                data-content-path="pageCopy.home.exportExcellence.primaryCta"
+              >
+                {exportExcellence?.primaryCta ?? 'Request a discovery call'}
+                <ArrowRightIcon className="h-4 w-4" />
+              </Link>
+              <a
+                href={`https://wa.me/${companyInfo.whatsapp.replace('+', '')}`}
+                className="inline-flex items-center gap-2 rounded-full border border-brand-primary px-6 py-3 text-sm font-semibold text-brand-primary transition hover:bg-brand-lime/10"
+                data-content-path="pageCopy.home.exportExcellence.secondaryCta"
+              >
+                {exportExcellence?.secondaryCta ?? 'Chat on WhatsApp'}
+              </a>
+            </div>
+          </div>
+
+          {/* ────────────────────────────────
+              RIGHT COLUMN – category cards
+          ──────────────────────────────── */}
+          <div className="flex flex-col gap-5 rounded-[2rem] border border-brand-primary/25 bg-white/80 p-6 shadow-inner">
+            <div className="flex items-center justify-between">
+              <span
+                className="text-[0.6rem] font-semibold uppercase tracking-[0.42em] text-brand-primary"
+                data-content-path="pageCopy.home.coreCategories.badge"
+              >
+                {coreCategories?.badge ?? 'Core categories'}
+              </span>
+              <div
+                className="text-[0.6rem] uppercase tracking-[0.34em] text-brand-primary/60"
+                data-content-path="pageCopy.home.coreCategories.apiLabel"
+              >
+                {coreCategories?.apiLabel ?? 'API ready'}
+              </div>
+            </div>
+
+            <div className="max-h-fit space-y-3 overflow-y-auto pr-1">
+              {productCategories.map((category, categoryIndex) => (
+                <Link
+                  key={category.slug}
+                  to={`/products/${category.slug}`}
+                  className="group flex flex-col items-center justify-between rounded-2xl border border-transparent bg-white px-4 py-3 text-sm text-brand-deep transition hover:border-brand-primary/40 hover:bg-brand-lime/10"
+                >
+                  <div className="w-full flex justify-center">
+                    <div className="w-full max-w-xs h-32 overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 flex items-center justify-center">
+                      <ImageWithFallback
+                        src={category.heroImage}
+                        alt={category.name}
+                        className="w-full h-full object-contain"
+                      />
                     </div>
                   </div>
-                  <div className="max-h-fit space-y-3 overflow-y-auto pr-1">
-                    {productCategories.map((category, categoryIndex) => (
-                      <Link
-                        key={category.slug}
-                        to={`/products/${category.slug}`}
-                        className="group flex flex-col items-center justify-between rounded-2xl border border-transparent bg-white px-4 py-3 text-sm text-brand-deep transition hover:border-brand-primary/40 hover:bg-brand-lime/10"
-                      >
-                        <div className="w-full flex justify-center">
-                          <div className="w-full max-w-xs h-32 overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 flex items-center justify-center">
-                            <ImageWithFallback src={category.heroImage} alt={category.name} className="w-full h-full object-contain" />
-                          </div>
-                        </div>
-                        <div className="mt-3 w-full text-left">
-                          <p
-                            className="font-semibold text-brand-deep group-hover:text-brand-primary truncate"
-                            data-content-path={`productCategories.${categoryIndex}.name`}
-                          >
-                            {category.name}
-                          </p>
-                          <p
-                            className="text-xs text-slate-500 group-hover:text-brand-primary/70 truncate"
-                            data-content-path={`productCategories.${categoryIndex}.tagline`}
-                          >
-                            {category.tagline}
-                          </p>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="relative mt-10 grid gap-4 sm:grid-cols-3">
-                {metrics.map((metric, metricIndex) => (
-                  <div
-                    key={`metric-${metricIndex}`}
-                    className="rounded-3xl border border-brand-primary/20 bg-white/80 p-4 text-center shadow-sm transition hover:-translate-y-1 hover:border-brand-primary hover:shadow-lg"
-                  >
+
+                  <div className="mt-3 w-full text-left">
                     <p
-                      className="text-3xl font-semibold text-brand-deep"
-                      data-content-path={`pageCopy.home.highlightMetrics.${metricIndex}.value`}
+                      /* ✨ full wrapping on mobile, ellipsis from ≥ sm */
+                      className="font-semibold text-brand-deep group-hover:text-brand-primary break-words sm:truncate"
+                      data-content-path={`productCategories.${categoryIndex}.name`}
                     >
-                      {metric.value}
+                      {category.name}
                     </p>
                     <p
-                      className="mt-1 text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-slate-500"
-                      data-content-path={`pageCopy.home.highlightMetrics.${metricIndex}.label`}
+                      /* ✨ same strategy for tagline */
+                      className="text-xs text-slate-500 group-hover:text-brand-primary/70 break-words sm:truncate"
+                      data-content-path={`productCategories.${categoryIndex}.tagline`}
                     >
-                      {metric.label}
-                    </p>
-                    <p
-                      className="mt-2 text-xs text-slate-500"
-                      data-content-path={`pageCopy.home.highlightMetrics.${metricIndex}.description`}
-                    >
-                      {metric.description}
+                      {category.tagline}
                     </p>
                   </div>
-                ))}
-              </div>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
-      </section>
+
+        {/* ────────────────────────────────
+            METRICS STRIP
+        ──────────────────────────────── */}
+        <div className="relative mt-10 grid gap-4 sm:grid-cols-3">
+          {metrics.map((metric, metricIndex) => (
+            <div
+              key={`metric-${metricIndex}`}
+              className="rounded-3xl border border-brand-primary/20 bg-white/80 p-4 text-center shadow-sm transition hover:-translate-y-1 hover:border-brand-primary hover:shadow-lg"
+            >
+              <p
+                className="text-3xl font-semibold text-brand-deep"
+                data-content-path={`pageCopy.home.highlightMetrics.${metricIndex}.value`}
+              >
+                {metric.value}
+              </p>
+              <p
+                className="mt-1 text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-slate-500"
+                data-content-path={`pageCopy.home.highlightMetrics.${metricIndex}.label`}
+              >
+                {metric.label}
+              </p>
+              <p
+                /* ✨ wrap metric captions on tiny screens */
+                className="mt-2 text-xs text-slate-500 break-words"
+                data-content-path={`pageCopy.home.highlightMetrics.${metricIndex}.description`}
+              >
+                {metric.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       <section className="bg-slate-50 py-16">
         <div className="container-gxt">
@@ -425,4 +479,5 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';

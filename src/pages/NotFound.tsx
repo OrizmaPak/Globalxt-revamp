@@ -2,12 +2,20 @@ import { Link } from 'react-router-dom';
 import image from '../assets/image3.jpg';
 import { useContent } from '../context/ContentProvider';
 import Breadcrumb from '../components/Breadcrumb';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 
 const NotFoundPage = () => {
   const { content } = useContent();
   const heroBg = content?.pageImages?.defaultHero ?? image;
   return (
     <div className="relative flex min-h-[60vh] flex-col items-center justify-center overflow-hidden text-center">
+      <SEO
+        title="Page Not Found | Global XT Limited"
+        description="The page you requested could not be located."
+        noindex
+        canonical={canonicalForPath('/404')}
+      />
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{

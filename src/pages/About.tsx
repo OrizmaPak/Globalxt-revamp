@@ -4,6 +4,8 @@ import image from '../assets/image3.jpg';
 import Breadcrumb from '../components/Breadcrumb';
 import { pageCopy as defaultPageCopy } from '../data/pageCopy';
 import { companyInfo as defaultCompanyInfo, serviceOfferings as defaultServiceOfferings } from '../data/siteContent';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 
 const tokenPattern = /{(\w+)}/g;
 
@@ -47,6 +49,12 @@ const AboutPage = () => {
 
   return (
     <div className="bg-white">
+      <SEO
+        title="About | Global XT Limited"
+        description={aboutCopy?.hero?.description ?? "Delivering Africa's Finest Agro Products to the World"}
+        pathname={'/about'}
+        canonical={canonicalForPath('/about')}
+      />
       <section className="relative overflow-hidden py-16">
         <div
           className="absolute inset-0 bg-cover bg-center"

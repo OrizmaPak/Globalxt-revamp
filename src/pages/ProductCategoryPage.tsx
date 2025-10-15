@@ -4,6 +4,8 @@ import AddToEnquiryButton from '../components/AddToEnquiryButton';
 import { useContent } from '../context/ContentProvider';
 import image from '../assets/image3.jpg';
 import Breadcrumb from '../components/Breadcrumb';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 
 const ProductCategoryPage = () => {
   const { categorySlug } = useParams();
@@ -32,6 +34,22 @@ const ProductCategoryPage = () => {
 
   return (
     <div className="bg-white">
+      <SEO
+        title={`${category.name} | Products | Global XT Limited`}
+        description={category.summary}
+        image={category.heroImage}
+        pathname={`/products/${category.slug}`}
+        canonical={canonicalForPath(`/products/${category.slug}`)}
+        type="website"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Products', item: canonicalForPath('/products') },
+            { '@type': 'ListItem', position: 2, name: category.name, item: canonicalForPath(`/products/${category.slug}`) },
+          ],
+        }}
+      />
       <section className="relative overflow-hidden py-16">
         <div
           className="absolute inset-0 bg-cover bg-center"

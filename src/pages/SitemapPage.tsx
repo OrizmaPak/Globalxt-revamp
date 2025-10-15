@@ -1,12 +1,21 @@
 import image from '../assets/image3.jpg';
 import { useContent } from '../context/ContentProvider';
 import Breadcrumb from '../components/Breadcrumb';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 
 const SitemapPage = () => {
   const { content } = useContent();
   const heroBg = content?.pageImages?.defaultHero ?? image;
   return (
     <div className="relative overflow-hidden py-16">
+      <SEO
+        title="Sitemap | Global XT Limited"
+        description="HTML sitemap overview."
+        pathname={'/sitemap'}
+        canonical={canonicalForPath('/sitemap')}
+        noindex
+      />
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{

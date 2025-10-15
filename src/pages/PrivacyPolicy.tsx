@@ -1,11 +1,20 @@
 import image from '../assets/image3.jpg';
 import { useContent } from '../context/ContentProvider';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 
 const PrivacyPolicyPage = () => {
   const { content } = useContent();
   const heroBg = content?.pageImages?.defaultHero ?? image;
   return (
     <div className="relative overflow-hidden py-16">
+      <SEO
+        title="Privacy Policy | Global XT Limited"
+        description="Global XT Limited privacy policy."
+        pathname={'/privacy'}
+        canonical={canonicalForPath('/privacy')}
+        noindex
+      />
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{

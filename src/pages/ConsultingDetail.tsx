@@ -6,6 +6,8 @@ import heroQuality from '../assets/images/hero_quality.jpg';
 import heroLogistics from '../assets/images/hero_logistics.jpg';
 import articleExports from '../assets/images/article_exports.jpg';
 import Breadcrumb from '../components/Breadcrumb';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 
 const serviceImages: Record<string, string[]> = {
   'world-class-export-consulting-service': [heroLogistics, heroQuality, articleExports],
@@ -40,6 +42,12 @@ const ConsultingDetailPage = () => {
 
   return (
     <div className="bg-white">
+      <SEO
+        title={`${service.name} | Consulting | Global XT Limited`}
+        description={service.summary}
+        pathname={`/consulting/${service.slug}`}
+        canonical={canonicalForPath(`/consulting/${service.slug}`)}
+      />
       <section className="relative overflow-hidden py-16">
         <div className="container-gxt">
           <span

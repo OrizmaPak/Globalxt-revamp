@@ -22,7 +22,6 @@ import AdminChatPage from './pages/admin/AdminChatPage';
 import { ContentProvider } from './context/ContentProvider';
 import { EnquiryCartProvider } from './context/EnquiryCartProvider';
 import { AuthProvider } from './context/AuthProvider';
-import AdminContentSync from './pages/AdminContentSync';
 import EnquiryCartBadge from './components/EnquiryCartBadge';
 import EnquiryCartPanel from './components/EnquiryCartPanel';
 import AdminLayout from './pages/admin/AdminLayout';
@@ -31,6 +30,7 @@ import ProductsAdmin from './pages/admin/ProductsAdmin';
 import PagesAdmin from './pages/admin/PagesAdmin';
 import LivePreview from './pages/admin/LivePreview';
 import SplitScreenLivePreview from './pages/admin/SplitScreenLivePreview';
+import StatsAdmin from './pages/admin/StatsAdmin';
 import { AdminEditProvider } from './context/AdminEditProvider';
 import { SmartEditProvider } from './context/SmartEditProvider';
 import SmartEditOverlay from './components/admin/SmartEditOverlay';
@@ -84,8 +84,8 @@ const App = () => {
             <Route path="categories" element={<CategoriesAdmin />} />
             <Route path="products" element={<ProductsAdmin />} />
             <Route path="pages" element={<PagesAdmin />} />
-            <Route path="content-sync" element={<AdminContentSync />} />
             <Route path="chat" element={<AdminChatPage />} />
+            <Route path="stats" element={<StatsAdmin />} />
             <Route path="live-preview" element={
               <AdminEditProvider>
                 <SplitScreenLivePreview />

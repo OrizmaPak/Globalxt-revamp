@@ -3,6 +3,8 @@ import type { FormEvent } from 'react';
 import { useContent } from '../context/ContentProvider';
 import image from '../assets/image3.jpg';
 import Breadcrumb from '../components/Breadcrumb';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 
 const ContactPage = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -18,6 +20,12 @@ const ContactPage = () => {
 
   return (
     <div className="bg-white">
+      <SEO
+        title="Contact | Global XT Limited"
+        description="Get in touch to discuss your agro commodity sourcing, export consulting, and training needs."
+        pathname={'/contact'}
+        canonical={canonicalForPath('/contact')}
+      />
       <section className="relative overflow-hidden py-16">
         <div
           className="absolute inset-0 bg-cover bg-center"

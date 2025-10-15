@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Exclude non-public areas
+Disallow: /admin
+Disallow: /chat
+
+# Sitemap location (update SITE URL if different)
+Sitemap: https://globalxtltd.com/sitemap.xml
+

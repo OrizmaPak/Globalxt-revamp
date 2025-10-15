@@ -6,6 +6,8 @@ import catSeedsGrains from '../assets/images/cat_seeds_grains.jpg';
 import catSpicesHerbs from '../assets/images/cat_spices_herbs.jpg';
 import catNutsMore from '../assets/images/cat_nuts_more.jpg';
 import Breadcrumb from '../components/Breadcrumb';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 
 const industryImages: Record<string, string[]> = {
   fmcgs: [catSpicesHerbs, catNutsMore, catSeedsGrains],
@@ -36,6 +38,12 @@ const IndustryDetailPage = () => {
 
   return (
     <div className="bg-white">
+      <SEO
+        title={`${segment.name} | Industries | Global XT Limited`}
+        description={segment.summary}
+        pathname={`/industries/${segment.slug}`}
+        canonical={canonicalForPath(`/industries/${segment.slug}`)}
+      />
       <section className="relative overflow-hidden py-16">
         <div className="container-gxt">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-primary" data-content-path="pageCopy.industryDetail.heroBadge">

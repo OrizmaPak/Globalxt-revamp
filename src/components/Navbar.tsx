@@ -581,19 +581,20 @@ const Navbar = () => {
       <div
         className={clsx(
           'mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative',
-          isPinned ? 'top-[4px]' : 'top-[61px]'
+          // Keep navbar flush to top on mobile; apply offsets only on lg+
+          isPinned ? 'top-0 lg:top-[4px]' : 'top-0 lg:top-[61px]'
         )}
       >
         <div
           className={clsx(
             'relative flex items-center bg-white/95 justify-between gap-4 rounded-[28px] borde px-6 py-3 transition-all duration-500',
             isPinned
-              ? 'mt-3 border-brand-primary/20 bg-white/98 shadow-lg'
-              : 'top-[60px] -translate-y-16 border-brand-primary/30 bg-white/95 shadow-[0_50px_140px_-60px_rgba(10,45,18,0.4)] backdrop-blur-sm'
+              ? 'lg:mt-3 border-brand-primary/20 bg-white/98 shadow-lg'
+              : 'lg:top-[60px] lg:-translate-y-16 border-brand-primary/30 bg-white/95 shadow-[0_50px_140px_-60px_rgba(10,45,18,0.4)] backdrop-blur-sm'
           )}
         >
           <NavLink to="/" className="flex items-center gap-3 text-brand-deep/80 lg:hidden">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-brand-primary/30 bg-white shadow-sm">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl shadow-sm">
               <ImageWithFallback src={logo} alt="Global XT" className="h-6 w-6 object-contain" />
             </div>
             <span className="text-[0.6rem] font-semibold uppercase tracking-[0.3em]">

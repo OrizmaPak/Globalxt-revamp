@@ -1,6 +1,8 @@
 import { useParams, Link } from 'react-router-dom';
 import { useContent } from '../context/ContentProvider';
 import Breadcrumb from '../components/Breadcrumb';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 
 const BlogDetailPage = () => {
   const { slug } = useParams();
@@ -28,6 +30,25 @@ const BlogDetailPage = () => {
 
   return (
     <div className="bg-white min-h-screen">
+      <SEO
+        title={`${article.title} | Resources | Global XT Limited`}
+        description={article.summary}
+        image={article.image}
+        pathname={`/resources/${article.slug}`}
+        canonical={canonicalForPath(`/resources/${article.slug}`)}
+        type="article"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: article.title,
+          description: article.summary,
+          image: [article.image],
+          author: { '@type': 'Person', name: article.author },
+          datePublished: article.publishedOn,
+          dateModified: article.publishedOn,
+          mainEntityOfPage: canonicalForPath(`/resources/${article.slug}`),
+        }}
+      />
       {/* Hero Section */}
       <section className="relative overflow-hidden py-16">
         <div
@@ -210,3 +231,4 @@ const BlogDetailPage = () => {
 };
 
 export default BlogDetailPage;
+

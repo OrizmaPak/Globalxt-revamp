@@ -5,6 +5,8 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import { useContent } from '../context/ContentProvider';
 import LogoLoader from './LogoLoader';
+import SEO from './SEO';
+import { canonicalForPath } from '../utils/seo';
 
 const Layout = () => {
   const { pathname } = useLocation();
@@ -25,6 +27,13 @@ const Layout = () => {
 
   return (
     <div className="flex min-h-screen flex-col bg-white relative">
+      <SEO
+        title="Global XT Limited | Agro Commodities & Export Consulting"
+        description="Global XT Limited exports premium African agro commodities and provides export consulting, training, and brokerage services."
+        pathname={pathname}
+        canonical={canonicalForPath(pathname)}
+        type="website"
+      />
       <div className="hidden lg:block">
         <HeaderTopBar />
       </div>

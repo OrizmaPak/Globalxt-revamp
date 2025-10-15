@@ -6,6 +6,8 @@ import heroTraining from '../assets/images/hero_training.jpg';
 import heroQuality from '../assets/images/hero_quality.jpg';
 import articleExports from '../assets/images/article_exports.jpg';
 import heroLogistics from '../assets/images/hero_logistics.jpg';
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
 
 const serviceThumb: Record<string, string> = {
   'world-class-export-consulting-service': heroLogistics,
@@ -20,6 +22,12 @@ const ConsultingPage = () => {
   const heroBg = content?.pageImages?.defaultHero ?? image;
   return (
     <div className="bg-white">
+      <SEO
+        title="Consulting | Global XT Limited"
+        description="Export advisory, training, and brokerage enablement for agro commodities."
+        pathname={'/consulting'}
+        canonical={canonicalForPath('/consulting')}
+      />
       <section className="relative overflow-hidden py-16">
         <div
           className="absolute inset-0 bg-cover bg-center"

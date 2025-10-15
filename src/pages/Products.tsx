@@ -5,11 +5,14 @@ import image from '../assets/image3.jpg';
 import Breadcrumb from '../components/Breadcrumb';
 
 const ProductsPage = () => {
+  const title = 'Products | Global XT Limited';
+  const desc = 'Explore our core agro commodity categories with specifications, origins, and packaging options.';
   const { content } = useContent();
   const productCategories = content?.productCategories ?? [];
   const heroBg = content?.pageImages?.defaultHero ?? image;
   return (
     <div className="bg-white">
+      <SEO title={title} description={desc} pathname={'/products'} canonical={canonicalForPath('/products')} type="website" />
       <section className="relative overflow-hidden py-16">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -117,3 +120,5 @@ const ProductsPage = () => {
 };
 
 export default ProductsPage;
+import SEO from '../components/SEO';
+import { canonicalForPath } from '../utils/seo';
